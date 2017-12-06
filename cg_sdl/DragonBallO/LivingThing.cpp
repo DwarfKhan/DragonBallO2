@@ -54,7 +54,6 @@ void LivingThing::Move()
 	switch (moveState) {
 
 	case sNotMoving:
-		moveDir = none;
 		mFollowVector = { 0,0 };
 		return;
 		break;
@@ -105,13 +104,11 @@ void LivingThing::Move()
 		{
 			mAlertSoundHasPlayed = false;
 			mFollowVector = { 0,0 };
-			moveDir = none;
 			break;
 		}
 		else if (Mag(difPos) < attackDist)//if target is within attack range
 		{
 			mFollowVector = { 0,0 };
-			moveDir = none;
 			break;
 		}
 

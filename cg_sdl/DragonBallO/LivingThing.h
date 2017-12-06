@@ -52,9 +52,9 @@ public:
 
 	int attackDamage;
 
-
 	float attackDist = 50.0f; //how close LivingThing will get to mFollowTarget before stopping
 	float awareDist = 250.0f; //how close mFollowTarget must be in order to follow
+
 
 private:
 	void WalkSound();
@@ -81,8 +81,6 @@ protected:
 
 
 
-	enum MoveDir { up, down, left, right, none };
-	MoveDir moveDir;
 
 	bool mIsAlive = true;
 	bool mAlertSoundHasPlayed = false;
