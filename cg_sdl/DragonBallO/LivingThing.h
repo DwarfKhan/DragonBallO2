@@ -56,7 +56,8 @@ public:
 	float attackDist = 50.0f; //how close LivingThing will get to mFollowTarget before stopping
 	float awareDist = 250.0f; //how close mFollowTarget must be in order to follow
 
-	
+private:
+	void WalkSound();
 
 
 
@@ -70,6 +71,15 @@ protected:
 	float mWalkSoundTime = 55.0f;
 
 	float mAttackVelocity;
+
+	
+	AnimState moveTempState;//
+	AnimState attackTempState;//
+	AnimState damageTempState;//
+	AnimState deathTempState;//
+
+
+
 
 	enum MoveDir { up, down, left, right, none };
 	MoveDir moveDir;

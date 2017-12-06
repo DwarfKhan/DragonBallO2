@@ -41,6 +41,28 @@ int MyMath::DiceRoll(int min, int max)
 	return rand() % ((max - min) + 1) + min;
 }
 
+int MyMath::FindDirectionFromVector(Float2 vec)
+{
+	int ans;
+	if (.1 + Abs(vec.x) >= Abs(vec.y)) {//Further in x distance
+		if (vec.x >= 0) {//right
+			ans = 3;
+		}
+		else {//left
+			ans = 2;
+		}
+	}
+	else {
+		if (vec.y >=0) {//Down
+			ans = 1;
+		}
+		else {//up
+			ans = 0;
+		}
+	}
+	return ans;
+}
+
 void MyMath::Normalize(Float2 &vector)
 {
 	float cSq = (vector.x * vector.x) + (vector.y * vector.y);

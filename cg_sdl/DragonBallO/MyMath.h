@@ -116,6 +116,8 @@ namespace MyMath {
 	float Lerp(float start, float end, float time);
 
 	int DiceRoll(int min, int max);
+
+	int FindDirectionFromVector(Float2 vec);
 	
 	void Normalize(Float2 &vector);
 	float Mag(Float2 vector); //returns the length of the hypotenuse of x and y components

@@ -36,11 +36,10 @@ void LivingThing::OnProxCollision(Entity * other) //Gets called by a ProxTrigger
 
 void LivingThing::Update()
 {
-
 	Death();
 	Move();
-	Sprite::Update();
 	Animate();
+	Sprite::Update();
 }
 
 void LivingThing::Move()
@@ -138,62 +137,27 @@ void LivingThing::Move()
 
 
 	MyMath::Float2 newPos = mPos; //making some temporary values to be assigned to mPos and animState at the end
-		AnimState tempState;
 
-
-		if (animState == AnimState::sDamage && mAnimDamage->active == true) {//damage animation has top priority
-			tempState = sDamage;
-		}
-		else if (attackState != sNotAttacking) { //attcking has priortiy over movement
-			tempState = sAttack;
-			newPos += (mFollowVector * mAttackVelocity * gDeltaTime);
-		}
-		else {
 
 		//Display idle if not moving
 		if (mFollowVector.x == 0 && mFollowVector.y == 0)
 		{
-			tempState = sIdle;
+			moveTempState = sIdle;
 		}
 		else {
 
-			if (mWalkSoundTimer > 0) { //making a walk sound effect every so often based on move speed
-				mWalkSoundTimer -= gDeltaTime * mMoveSpeed;
-				//printf("%f\n", mWalkSoundTimer);
-			}
-			else {
-				sdlInit.PlaySFX(mWalkSound,10);
-				mWalkSoundTimer = mWalkSoundTime;
-			}
-
-			tempState = sMove;
-			//printf("newPos before speed/time x: %f, y: %f.\n", newPos.x, newPos.y);
+			WalkSound();
+			moveTempState = sMove;
 			newPos += (mFollowVector * mMoveSpeed * gDeltaTime);
-			//printf("newPos after speed/time x: %f, y: %f.\n", newPos.x, newPos.y);
-
 		}
 
 		//Decide on facingDirection
-		if (.1 + Abs(mFollowVector.x) >= Abs(mFollowVector.y)) {//Further in x distance
-			if (mFollowVector.x >= 0) {//right
-				mFacingDirection = 3;
-			}
-			else {//left
-				mFacingDirection = 2;
-			}
-		}
-		else {
-			if (mFollowVector.y >=0) {//Down
-				mFacingDirection = 1;
-			}
-			else {
-				mFacingDirection = 0;
-			}
-		}
-		}
 
-		animState = tempState; //assigning the temp values to their destination
-		mPos = newPos;
+		mFacingDirection = MyMath::FindDirectionFromVector(mFollowVector);
+
+		
+
+		mPos = newPos; //assigning the temp values to their destination
 }
 
 void LivingThing::Death()
@@ -202,7 +166,7 @@ void LivingThing::Death()
 		mAnimDeath->active = true;
 		mAnimIdle->active = false;
 		mIsAlive = false;
-		animState = sDeath;
+		deathTempState = sDeath;
 		sdlInit.PlaySFX(mDeathSound);
 	}
 }
@@ -210,6 +174,20 @@ void LivingThing::Death()
 void LivingThing::Animate()
 {
 	bool finished;
+
+	//TODO: decide on anim state based on tempstate values
+	if (!mIsAlive) {//death animation highest priority
+		animState = deathTempState;
+	}
+	else if (mAnimDamage->active == true) {
+		animState = damageTempState;
+	}
+	else if (attackTempState != AttackState::sNotAttacking) {
+		animState = attackTempState;
+	}
+	else {
+		animState = moveTempState;
+	}
 
 	switch(animState) {
 
@@ -299,7 +277,7 @@ bool LivingThing::TakeDamage(int damage)
 {
 	if (mHealth - damage > 0) {
 	mAnimDamage->active = true;
-	animState = sDamage;
+	damageTempState = sDamage;
 	sdlInit.PlaySFX(mDamageSound);
 	}
 	printf("HP: %d \n", (mHealth - damage));
@@ -396,6 +374,18 @@ void LivingThing::SetAlertSound(Mix_Chunk * sound)
 void LivingThing::SetAttackSound(Mix_Chunk * sound)
 {
 	mAttackSound = sound;
+}
+
+void LivingThing::WalkSound()
+{
+	if (mWalkSoundTimer > 0) { //making a walk sound effect every so often based on move speed
+		mWalkSoundTimer -= gDeltaTime * mMoveSpeed;
+		//printf("%f\n", mWalkSoundTimer);
+	}
+	else {
+		sdlInit.PlaySFX(mWalkSound, 10);
+		mWalkSoundTimer = mWalkSoundTime;
+	}
 }
 
 
