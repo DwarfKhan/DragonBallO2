@@ -73,10 +73,10 @@ protected:
 	float mAttackVelocity;
 
 	
-	AnimState moveTempState;//
-	AnimState attackTempState;//
-	AnimState damageTempState;//
-	AnimState deathTempState;//
+	AnimState moveTempState;
+	AnimState attackTempState;
+	AnimState damageTempState;
+	AnimState deathTempState;
 
 
 

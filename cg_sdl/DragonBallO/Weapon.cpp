@@ -13,9 +13,9 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::SetDamage(int damage)
+void Weapon::SetDamage(int &damage)
 {
-	attackDamage = damage;
+	attackDamage = &damage;
 }
 
 void Weapon::Update()
@@ -36,7 +36,7 @@ void Weapon::OnCollision(Entity * other)
 	}
 	printf("Weapon hit LivingThing.\n");
 	LivingThing* lOther = (LivingThing *)other;
-	lOther->TakeDamage(attackDamage);
+	lOther->TakeDamage(*attackDamage);
 
 	attacking = false;
 	Entity::OnCollision(other);

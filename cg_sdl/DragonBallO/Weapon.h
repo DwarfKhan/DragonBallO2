@@ -7,13 +7,13 @@ class Weapon :
 public:
 
 	bool attacking;
-	int attackDamage;
+	int *attackDamage;
 
 
 
 	Weapon();
 	~Weapon();
-	void SetDamage(int damage);
+	void SetDamage(int &damage);
 	void Update() override;
 	void OnCollision(Entity *other) override;
 
