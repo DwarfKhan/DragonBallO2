@@ -216,19 +216,21 @@ void Player::Attack() {
 	playerWeapon->SetDamage(attackDamage);
 	//Update animation...
 	if (attackTimer > 0.f) {
-		SetCorners();
-		weaponPos = FindWeaponPos();
-		playerWeapon->SetPosition(weaponPos);
-		attackTimer -= gDeltaTime;	//Updates timer...
-		float time = 1.f - (attackTimer/attackTime);
 
+		attackTimer -= gDeltaTime;	//Updates timer...
+
+		//TODO: replace all player animation with Animation class
+		float time = 1.f - (attackTimer/attackTime);
 		int index = (int)(time * ANIM_ATTACK_COUNT) % ANIM_ATTACK_COUNT;
 		mSpriteClipIndex = animAttackLeftIndices[mFacingDirection][index];
 
 	}	//Start animation...
 	else if (gFirstKeyDown) {
 		sdlInit.PlaySFX(sdlInit.sfxSlash01);
-		attackTimer = attackTime;
+		attackTimer = attackTime;   
+		SetCorners();
+		weaponPos = FindWeaponPos();
+		playerWeapon->SetPosition(weaponPos);
 		playerWeapon->attacking = true;
 	}
 	else {
