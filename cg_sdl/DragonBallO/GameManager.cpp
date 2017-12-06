@@ -112,8 +112,6 @@ void InitEntities() {
 
 //PLAYERWEAPON
 
-	//
-	playerWeapon.attacking = true;
 
 
 	//size
