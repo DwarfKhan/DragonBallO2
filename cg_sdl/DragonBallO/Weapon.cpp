@@ -25,18 +25,21 @@ void Weapon::Update()
 
 void Weapon::OnCollision(Entity * other)
 {
-	if (!attacking) {
+	if (!attacking) { 
 		return;
 	}
 
-	if (typeid(*other) != typeid(livingThingTypeHolder)) {
+	if (typeid(*other) != typeid(livingThingTypeHolder)) {//weapon can collide with non living things (buttons)
 		attacking = false;
 		Entity::OnCollision(other);
 		return;
 	}
+
 	printf("Weapon hit LivingThing.\n");
 	LivingThing* lOther = (LivingThing *)other;
 	lOther->TakeDamage(*attackDamage);
+	//insert special weapon effects here
+
 
 	attacking = false;
 	Entity::OnCollision(other);

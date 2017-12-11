@@ -1,4 +1,6 @@
 #include "Effect.h"
+#include "SDLInit.h"
+
 
 extern float gDeltaTime;
 extern SDLInit sdlInit; //needed for sound effects
@@ -16,7 +18,7 @@ Effect::~Effect()
 void Effect::Update()
 {
 	if (mTimer < 0) {
-		//sdlInit.CleanupSprite();
+		sdlInit.CleanupSprite(*this);//UNTESTED
 	}
 	if (temporary) {
 		mTimer -= gDeltaTime;

@@ -1,3 +1,78 @@
+/*
+enemy attacks
+	attack animations
+		rework guard spritesheet
+	player heath / death
+		respawning?
+		hp indicator (gui element class?)
+	attack movements?
+		would need to turn off move() temporarily
+	attack effects?
+
+game intro
+	find main function
+	display splash screen
+	display main menu
+		start game
+		options
+			sound
+		save/load?
+		credits
+			myself
+			music authors
+			oden
+			stephen
+
+items
+	inventory
+		pause game
+		sorted by use
+			eg: consumables, weapons, quest items, gp
+			idea: random garbage items that appear in your inventory to simulate the passage of time
+				eg: pocket lint, empty bottles, crumbs
+					could be thrown?
+	gui
+	mobs drop money / consumables
+	item ideas:
+		sensu bean restores full hp
+
+levels
+	seperate game into managable chunks with fewer entities
+	level plan:
+		starting village to introduce core mechanics
+			farm with scarecrows for target practice
+			basic shop
+			smashable crates/boxes for small amounts of money
+			introduce love interest
+			love interest captured
+			prepare for rescue quest
+		crossroads village
+			side quests?
+			learn of foreigners conquering all in path
+			establish doubt in the foreign threat through npc dialogue
+				"threats from another world, how original..."
+				"these doom prophecies are getting less and less believable"
+				"i have more important things to worry about than magic men"
+			mentor/sage character convinces player to get his priorities straight, romance problems can wait
+				cutscene of destruction of sage's home by invaders
+		temple
+			a lot of potential for jokes about religion / god here
+			elders proclaim player fits into incredibly vague prophecy as the chosen one
+			send player on true quest to defeat invaders, first gathering powerful allies and artifacts
+			cutscene of another young adventurer being told the same speech right afterwards
+		refugee camp
+			people fleeing destructioon of invaders
+			other groups of adventurers going to join the fight
+			establish sense of urgency
+				"soon the whole world will be consumed by this chaos..."
+				"we should just submit to them, nobody can stop them"
+				"abandon your quest, this is god's judgement and it cant be stopped"
+
+
+
+
+*/
+
 #include "GameManager.h"
 #include "SDLInit.h"
 #include "World.h"
