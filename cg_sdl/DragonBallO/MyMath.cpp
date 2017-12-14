@@ -63,6 +63,34 @@ int MyMath::FindDirectionFromVector(Float2 vec)
 	return ans;
 }
 
+float MyMath::FindAngleFromVector(Float2 vec)
+{
+	float angle = atan(vec.x/vec.y);
+	angle *= (-180.0f / 3.14f);
+
+	if (vec.y > .0f) {
+		if (vec.x > .0f) {//q4
+			angle += 180.0f;
+
+		}
+		else if (vec.x <= .0f) {//q3
+			angle += 180.0f;
+
+		}
+	}
+	else if (vec.y <= .0f) {
+		if (vec.x > .0f) {//q1
+
+		}
+		else if (vec.x <= .0f) {//q2
+			angle += 360.0f;
+		}
+	}
+
+	//printf("angle: %f\n", angle);
+	return angle;
+}
+
 void MyMath::Normalize(Float2 &vector)
 {
 	float cSq = (vector.x * vector.x) + (vector.y * vector.y);
