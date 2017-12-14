@@ -1,7 +1,11 @@
+#pragma once
 #include "LivingThing.h"
 #include "Player.h"
 #include "Sprite.h"
 #include "MyMath.h"
+#include <stdio.h>
+
+#define DIAG_ANGLE_THRESHOLD 43.0f
 
 extern float gDeltaTime;
 extern Camera gCamera;
@@ -66,8 +70,8 @@ void LivingThing::Move()
 
 		if (mRandomNavTimer <= 0)
 		{
-		//choose a new direction
-			if(DiceRoll(0, 1) == 0) {
+			//choose a new direction
+			if (DiceRoll(0, 1) == 0) {
 				mFollowVector = 0;
 			}
 			else {
@@ -82,8 +86,8 @@ void LivingThing::Move()
 			//reset timer
 			float newTime = (
 				((float)DiceRoll(mRandomNavMinTime, mRandomNavMaxTime))
-				/10.0f);
-				mRandomNavTimer = newTime;
+				/ 10.0f);
+			mRandomNavTimer = newTime;
 
 		}
 
@@ -99,7 +103,9 @@ void LivingThing::Move()
 		}
 
 		difPos = mFollowTarget->GetPos() - mPos;
-		
+		printf("distance = %f\n", Mag(difPos));
+
+
 		if (Mag(difPos) > awareDist)//if target is outside aware distance
 		{
 			mAlertSoundHasPlayed = false;
@@ -111,6 +117,25 @@ void LivingThing::Move()
 			mFollowVector = { 0,0 };
 			break;
 		}
+		else if (Mag(difPos) < attackDist * 1.5f)
+		{
+			//90 degree approach
+			if (Abs(difPos.x) < 1.0f || Abs(difPos.y) < 1.0f) {
+
+			}
+			else if (Abs(difPos.x) > Abs(difPos.y))
+			{
+				difPos.x = 0;
+			}
+			else if (Abs(difPos.x) <= Abs(difPos.y))
+			{
+				difPos.y = 0;
+			}
+		}
+	
+		mFollowVector = difPos;
+		Normalize(mFollowVector);
+
 
 
 		if (mAlertSoundHasPlayed == false) { //alert sound plays once when target enters awaredist (instead of spamming the sound effect)
@@ -118,8 +143,8 @@ void LivingThing::Move()
 			sdlInit.PlaySFX(mAlertSound, 80);
 		}
 
-		mFollowVector = difPos;
-		Normalize(mFollowVector);
+
+
 
 		break;
 

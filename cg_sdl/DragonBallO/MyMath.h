@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 
 namespace MyMath {
 	using UByte = unsigned char;
@@ -56,6 +57,10 @@ namespace MyMath {
 		void operator-=(Float2 other) {
 			x -= other.x;
 			y -= other.y;
+		}
+		void operator*=(float other) {
+			x *= other;
+			y *= other;
 		}
 
 		void operator=(float other) {
@@ -118,6 +123,7 @@ namespace MyMath {
 	int DiceRoll(int min, int max);
 
 	int FindDirectionFromVector(Float2 vec);
+	float FindAngleFromVector(Float2 vec); // returns angle in degrees, 0 being up
 	
 	void Normalize(Float2 &vector);
 	float Mag(Float2 vector); //returns the length of the hypotenuse of x and y components
