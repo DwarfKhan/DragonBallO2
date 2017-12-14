@@ -18,6 +18,13 @@ void Animation::AddSpriteClip(int spriteclip)
 	mFrameCount++;
 }
 
+void Animation::AddSpriteClip(vector<int> spriteClips)
+{
+	for (int i = spriteClips.size(); i > 0; --i) {
+		AddSpriteClip(i - 1);
+	}
+}
+
 void Animation::SetAnimSpeed(float speed)
 {
 	mSpeed = speed;
@@ -25,6 +32,10 @@ void Animation::SetAnimSpeed(float speed)
 
 bool Animation::UpdateSpriteClipIndex(int &spriteClipIndex) //returns true for a finished non-looping animation
 {
+	if (this == nullptr) {
+		printf("null animation attempted\n");
+		return false;
+	}
 	if (!active)
 	{
 		return false;
@@ -89,5 +100,4 @@ targetDeath.AddSpriteClip(5);
 void SetAnimDeath(Animation *anim); // needs reference to an animation to play
 mAnimDeath->UpdateSpriteClipIndex(mSpriteClipIndex); // this changes the mSpriteclipIndex to whatever frame the animation dictates
 */
-
 

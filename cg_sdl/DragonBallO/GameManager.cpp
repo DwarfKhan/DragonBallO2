@@ -86,7 +86,7 @@ levels
 #include "Grid.h"
 
 #define CAMERA_MODE Camera::Mode::PAN
-#define SHOW_COLLIDERS true
+#define SHOW_COLLIDERS false
 
 //Also camera dimension...
 const int SCREEN_WIDTH = 640;
@@ -333,7 +333,7 @@ void InitEntities() {
 	//Init sprite sheet
 	guard.InitSpriteSheet(0, 11, 6);
 	//position
-	guard.SetPosition({816,220});
+	guard.SetPosition({408,220});
 	//size
 	guard.SetSize(80, 80);
 	//collision
@@ -349,7 +349,7 @@ void InitEntities() {
 	//navigation
 
 	guard.SetMoveSpeed(70.0f);
-	guard.moveState = LivingThing::MoveState::sDirectFollow;
+	guard.moveState = LivingThing::MoveState::sRandom;
 	guard.SetFollowTarget(&player);
 
 	//sound
@@ -359,53 +359,68 @@ void InitEntities() {
 	guard.SetDeathSound(sdlInit.sfxDeath01);
 
 	//Spriteclips
-	guard.SetSpriteClip(0, 0, 32, 32, 0);
-	guard.SetSpriteClip(31, 0, 32, 32, 1);
-	guard.SetSpriteClip(63, 0, 32, 32, 2);
-	guard.SetSpriteClip(95, 0, 32, 32, 3);
+	guard.SetSpriteClip(0  , 0  , 31, 31, 0);
+	guard.SetSpriteClip(31 , 0  , 31, 31, 1);
+	guard.SetSpriteClip(63 , 0  , 31, 31, 2);
+	guard.SetSpriteClip(95 , 0  , 31, 31, 3);
 
-	guard.SetSpriteClip(0, 31, 32, 32, 4);
-	guard.SetSpriteClip(31, 31, 32, 32, 5);
-	guard.SetSpriteClip(63, 31, 32, 32, 6);
-	guard.SetSpriteClip(95, 31, 32, 32, 7);
+	guard.SetSpriteClip(0  , 31 , 31, 31, 4);
+	guard.SetSpriteClip(31 , 31 , 31, 31, 5);
+	guard.SetSpriteClip(63 , 31 , 31, 31, 6);
+	guard.SetSpriteClip(95 , 31 , 31, 31, 7);
+ 
+	guard.SetSpriteClip(0  , 63 , 31, 31, 8);
+	guard.SetSpriteClip(31 , 63 , 31, 31,  9);
+	guard.SetSpriteClip(63 , 63 , 31, 31,  10);
+	guard.SetSpriteClip(95 , 63 , 31, 31,  11);
 
-	guard.SetSpriteClip(0, 63,  32, 32, 8);
-	guard.SetSpriteClip(31, 63, 32, 32,  9);
-	guard.SetSpriteClip(63, 63, 32, 32,  10);
-	guard.SetSpriteClip(95, 63, 32, 32,  11);
+	guard.SetSpriteClip(0  , 95 , 31, 31, 12);
+	guard.SetSpriteClip(31 , 95 , 31, 31,  13);
+	guard.SetSpriteClip(63 , 95 , 31, 31,  14);
+	guard.SetSpriteClip(95 , 95 , 31, 31,  15);
 
-	guard.SetSpriteClip(0, 95, 32, 32, 12);
-	guard.SetSpriteClip(31,95, 32, 32,  13);
-	guard.SetSpriteClip(63,95, 32, 32,  14);
-	guard.SetSpriteClip(95,95, 32, 32,  15);
+	guard.SetSpriteClip(0  , 127, 31, 31, 16);
+	guard.SetSpriteClip(31 , 127, 31, 31,  17);
+	guard.SetSpriteClip(63 , 127, 31, 31,  18);
+	guard.SetSpriteClip(95 , 127, 31, 31,  19);
 
-	guard.SetSpriteClip(0, 127, 32, 32, 16);
-	guard.SetSpriteClip(31,127, 32, 32,  17);
-	guard.SetSpriteClip(63,127, 32, 32,  18);
-	guard.SetSpriteClip(95,127, 32, 32,  19);
+	guard.SetSpriteClip(0  , 159, 31, 31, 20);
+	guard.SetSpriteClip(31 , 159, 31, 31,  21);
+	guard.SetSpriteClip(63 , 159, 31, 31,  22);
+	guard.SetSpriteClip(95 , 159, 31, 31,  23);
 
-	guard.SetSpriteClip(0,  159, 32, 32, 20);
-	guard.SetSpriteClip(31, 159, 32, 32,  21);
-	guard.SetSpriteClip(63, 159, 32, 32,  22);
-	guard.SetSpriteClip(95, 159, 32, 32,  23);
+	guard.SetSpriteClip(223, 31 , 31, 31, 24);
+	guard.SetSpriteClip(255, 31 , 31, 31, 25);
 
-	guard.SetSpriteClip(223, 31, 32, 32, 24);
-	guard.SetSpriteClip(255, 31, 32, 32, 25);
-	guard.SetSpriteClip(125, 20, 29, 29, 26);
+	guard.SetSpriteClip(159, 0  , 31, 31, 26);
+	guard.SetSpriteClip(159, 31 , 31, 31,  27);
+
 
 	//Anchor offsets
-	guard.SetAnchorOffset({ -5,4 }, 2);
-	guard.SetAnchorOffset({ -5,4 }, 3);
+	guard.SetAnchorOffset({ -3,2 }, 2);
+	guard.SetAnchorOffset({ -3,1 }, 3);
+	guard.SetAnchorOffset({ 2,-1 }, 4);
 
-	guard.SetAnchorOffset({ 0,2 }, 12);
+	guard.SetAnchorOffset({ -2,0 }, 6);
+	guard.SetAnchorOffset({ -2,0 }, 7);
+	guard.SetAnchorOffset({ -3,0 }, 9);
+
+
+
+	guard.SetAnchorOffset({ 3,0 }, 12);
 	guard.SetAnchorOffset({ 0,2 }, 13);
 
-	guard.SetAnchorOffset({-32,0}, 19);
+	guard.SetAnchorOffset({ -2,0 }, 17);
+	guard.SetAnchorOffset({-30,0}, 19);
+	guard.SetAnchorOffset({ 1,-15 }, 20);
+	guard.SetAnchorOffset({ -2,-17 }, 21);
+
 	guard.SetAnchorOffset({-32,0}, 23);
 	guard.SetAnchorOffset({ -3,0 }, 25);
 
 
 	//Animation
+	//guard.animState = LivingThing::AnimState::sDisplayAll;
 
 	guard.SetAnimIdle(&guardIdle);
 	guardIdle.active = true;
@@ -458,37 +473,9 @@ void InitEntities() {
 	guardMoveRight.AddSpriteClip(12);
 	guardMoveRight.AddSpriteClip(13);
 
-	guard.SetAnimDisplayAll(&guardDisplayAll);
-	guardDisplayAll.loops = true;
-	guardDisplayAll.active = true;
-	guardDisplayAll.SetAnimSpeed(2);
-	guardDisplayAll.AddSpriteClip(0);
-	guardDisplayAll.AddSpriteClip(1);
-	guardDisplayAll.AddSpriteClip(2);
-	guardDisplayAll.AddSpriteClip(3);
-	guardDisplayAll.AddSpriteClip(4);
-	guardDisplayAll.AddSpriteClip(5);
-	guardDisplayAll.AddSpriteClip(6);
-	guardDisplayAll.AddSpriteClip(7);
-	guardDisplayAll.AddSpriteClip(8);
-	guardDisplayAll.AddSpriteClip(9);
-	guardDisplayAll.AddSpriteClip(10);
-	guardDisplayAll.AddSpriteClip(11);
-	guardDisplayAll.AddSpriteClip(12);
-	guardDisplayAll.AddSpriteClip(13);
-	guardDisplayAll.AddSpriteClip(14);
-	guardDisplayAll.AddSpriteClip(15);
-	guardDisplayAll.AddSpriteClip(16);
-	guardDisplayAll.AddSpriteClip(17);
-	guardDisplayAll.AddSpriteClip(18);
-	guardDisplayAll.AddSpriteClip(19);
-	guardDisplayAll.AddSpriteClip(20);
-	guardDisplayAll.AddSpriteClip(21);
-	guardDisplayAll.AddSpriteClip(22);
-	guardDisplayAll.AddSpriteClip(23);
-	guardDisplayAll.AddSpriteClip(24);
-	guardDisplayAll.AddSpriteClip(25);
-	guardDisplayAll.AddSpriteClip(26);
+	//guard.SetAnimDisplayAll(&guardDisplayAll);
+
+
 
 	guard.SetAnimAttackUp(&guardAttackUp);
 	guardAttackUp.loops = false;
@@ -585,7 +572,7 @@ void GameManager::Render(){
 	sdlInit.DrawSprite(player);
 
 	//Needs to come last...
-	if (SHOW_COLLIDERS) {
+	if (sdlInit.showColliders) {
 		sdlInit.DrawEntityCollider(moveTrigger);
 		sdlInit.DrawEntityCollider(target);
 		sdlInit.DrawEntityCollider(tree);

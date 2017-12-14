@@ -35,6 +35,8 @@ class SDLInit{
 		Mix_Chunk *sfxDamage01;
 		Mix_Chunk *sfxDeath01;
 
+		bool showColliders = false;
+
 	private:
 		SDL_Rect *mDstRect = NULL;
 		SDL_Rect *mSrcRect = NULL;

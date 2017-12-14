@@ -90,7 +90,7 @@ void SDLInit::HandleKeyboardEvents() {
 				case SDLK_2: gSecondKeyDown = true; break;
 				case SDLK_3: gThirdKeyDown = true; break;
 				case SDLK_4: gFourthKeyDown = true; break;
-				//case SDLK_9: Mix_PlayMusic(mMusic, 0); break;	//Mix_PlayChannel(-1, mSound, 0) <- takes a Mix_Chunk
+				case SDLK_9: if (showColliders) {showColliders = false;}else {showColliders = true;}; break;	//Mix_PlayChannel(-1, mSound, 0) <- takes a Mix_Chunk
 				default: break;
 				}
 			}

@@ -5,7 +5,7 @@
 #include "MyMath.h"
 #include <stdio.h>
 
-#define DIAG_ANGLE_THRESHOLD 43.0f
+#define RECT_ALLIGNMENT_THRESHOLD 1.0f
 
 extern float gDeltaTime;
 extern Camera gCamera;
@@ -14,6 +14,8 @@ extern SDLInit sdlInit; //needed for sound effects
 
 using namespace MyMath;
 using Float2 = MyMath::Float2;
+using UInt = unsigned int;
+
 
 
 LivingThing::LivingThing()
@@ -71,7 +73,7 @@ void LivingThing::Move()
 		if (mRandomNavTimer <= 0)
 		{
 			//choose a new direction
-			if (DiceRoll(0, 1) == 0) {
+			if (DiceRoll(0, 3) == 0) {
 				mFollowVector = 0;
 			}
 			else {
@@ -103,7 +105,7 @@ void LivingThing::Move()
 		}
 
 		difPos = mFollowTarget->GetPos() - mPos;
-		printf("distance = %f\n", Mag(difPos));
+		//printf("distance = %f\n", Mag(difPos));
 
 
 		if (Mag(difPos) > awareDist)//if target is outside aware distance
@@ -117,11 +119,13 @@ void LivingThing::Move()
 			mFollowVector = { 0,0 };
 			break;
 		}
+
+	//once just outside of attack range we want to allign either vertically or horizontally with the target
 		else if (Mag(difPos) < attackDist * 1.5f)
 		{
-			//90 degree approach
-			if (Abs(difPos.x) < 1.0f || Abs(difPos.y) < 1.0f) {
-
+			
+			if (Abs(difPos.x) < RECT_ALLIGNMENT_THRESHOLD || Abs(difPos.y) < RECT_ALLIGNMENT_THRESHOLD) {
+				//once alligned, we go back to direct follow.
 			}
 			else if (Abs(difPos.x) > Abs(difPos.y))
 			{
@@ -201,6 +205,9 @@ void LivingThing::Animate()
 	if (!mIsAlive) {//death animation highest priority
 		animState = deathTempState;
 	}
+	else if (animState == AnimState::sDisplayAll) {
+		//display all overrides all but death
+	}
 	else if (mAnimDamage->active == true) {
 		animState = damageTempState;
 	}
@@ -266,8 +273,7 @@ void LivingThing::Animate()
 		break;
 
 	case sDisplayAll:
-		mAnimDisplayAll->UpdateSpriteClipIndex(mSpriteClipIndex);
-		printf("Displaying: %d\n", mSpriteClipIndex);
+		mAnimDisplayAll.UpdateSpriteClipIndex(mSpriteClipIndex);
 		break;
 	}
 }
@@ -313,10 +319,7 @@ void LivingThing::SetFollowTarget(Entity * target)
 
 }
 
-void LivingThing::SetAnimDisplayAll(Animation * anim)
-{
-	mAnimDisplayAll = anim;
-}
+
 
 void LivingThing::SetAnimDamage(Animation * anim)
 {
@@ -396,6 +399,12 @@ void LivingThing::SetAlertSound(Mix_Chunk * sound)
 void LivingThing::SetAttackSound(Mix_Chunk * sound)
 {
 	mAttackSound = sound;
+}
+
+void LivingThing::SetSpriteClip(int x, int y, unsigned int w, unsigned int h, unsigned int index)
+{
+	mAnimDisplayAll.AddSpriteClip(index);
+	Sprite::SetSpriteClip(x,y,w,h,index);
 }
 
 void LivingThing::WalkSound()

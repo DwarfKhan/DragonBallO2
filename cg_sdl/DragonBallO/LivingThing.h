@@ -3,6 +3,9 @@
 #include"Destructible.h"
 #include "Weapon.h"
 #include "SDLinit.h"
+#include "DisplayAnimation.h"
+
+
 
 class LivingThing :
 	public Sprite,
@@ -22,7 +25,7 @@ public:
 	bool TakeDamage(int damage); // Not sure why override doesnt work here...
 	void SetFollowTarget(Entity *target);
 
-	void SetAnimDisplayAll(Animation *anim);
+
 	void SetAnimDamage(Animation *anim);
 	void SetAnimIdle(Animation *anim);
 	void SetAnimDeath(Animation *anim);
@@ -40,6 +43,8 @@ public:
 	void SetDamageSound(Mix_Chunk * sound);
 	void SetAlertSound(Mix_Chunk * sound);
 	void SetAttackSound(Mix_Chunk * sound);
+
+	void SetSpriteClip(int x, int y, unsigned int w, unsigned int h, unsigned int index) override;
 
 
 	enum AnimState {sIdle, sDeath, sDamage, sMove, sAttack, sDisplayAll};
@@ -66,9 +71,9 @@ protected:
 
 	float mRandomNavTimer;
 	float mRandomNavMaxTime = 18.0f;
-	float mRandomNavMinTime = 4.0f;
+	float mRandomNavMinTime = 10.0f;
 	float mWalkSoundTimer;
-	float mWalkSoundTime = 55.0f;
+	float mWalkSoundTime = 54.5f;
 
 	float mAttackVelocity;
 
@@ -85,7 +90,7 @@ protected:
 	bool mIsAlive = true;
 	bool mAlertSoundHasPlayed = false;
 
-	Animation *mAnimDisplayAll;
+	DisplayAnimation mAnimDisplayAll;
 	Animation *mAnimIdle;
 	Animation *mAnimDamage;
 	Animation *mAnimDeath;

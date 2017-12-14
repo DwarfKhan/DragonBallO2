@@ -43,6 +43,7 @@ void Sprite::SetSpriteClip(int x, int y, UInt w, UInt h, UInt index) {
 		return;
 	}
 
+
 	int i = index % mNumSpriteClips;
 	mSpriteCLips[i].x = x; mSpriteCLips[i].y = y;
 	mSpriteCLips[i].w = w; mSpriteCLips[i].h = h;
@@ -61,6 +62,8 @@ void Sprite::SetAnchorOffset(Int2 anchorOffset, UInt index) {
 	int i = index % mNumSpriteClips;
 	mAnimAnchorOffsets[i] = anchorOffset;
 }
+
+
 
 /************************************************************************/
 /* 	Sprite clip is used to render texture coordinates (for sprite

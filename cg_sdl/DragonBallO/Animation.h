@@ -8,8 +8,10 @@ public:
 	Animation();
 	~Animation();
 	void AddSpriteClip(int spriteclip);
+	void AddSpriteClip(vector<int> spriteClips);
+
 	void SetAnimSpeed(float speed);
-	bool UpdateSpriteClipIndex(int &spriteClipIndex); //returns true for completed animation, returns false for all other cases
+	virtual bool UpdateSpriteClipIndex(int &spriteClipIndex); //returns true for completed animation, returns false for all other cases
 	int GetFrameCount();
 
 	bool active = false;
@@ -28,4 +30,6 @@ protected:
 
 
 };
+
+
 
