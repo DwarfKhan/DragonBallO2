@@ -14,7 +14,7 @@ public:
 	virtual bool UpdateSpriteClipIndex(int &spriteClipIndex); //returns true for completed animation, returns false for all other cases
 	int GetFrameCount();
 
-	bool active = false;
+	bool active = true;
 	bool loops = true;
 
 
@@ -23,7 +23,7 @@ protected:
 	float mTimer;
 	int mFrameCount = 0;
 	int mCurrentFrame;
-	float mSpeed;
+	float mSpeed = 10;
 	vector<int> mSpriteClips;
 
 

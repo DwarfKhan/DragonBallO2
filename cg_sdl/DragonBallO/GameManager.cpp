@@ -106,6 +106,20 @@ SDLInit sdlInit;
 namespace {
 	Player player;
 		Weapon playerWeapon;
+		Animation playerDamage;
+		Animation playerDeath;
+		Animation playerIdleUp;
+		Animation playerIdleDown;
+		Animation playerIdleLeft;
+		Animation playerIdleRight;
+		Animation playerMoveUp;
+		Animation playerMoveDown;
+		Animation playerMoveLeft;
+		Animation playerMoveRight;
+		Animation playerAttackUp;
+		Animation playerAttackDown;
+		Animation playerAttackLeft;
+		Animation playerAttackRight;
 	Sprite tree;
 	Sprite boulder;
 	LivingThing target;
@@ -114,7 +128,6 @@ namespace {
 		Animation targetDeath;
 	LivingThing guard;
 		Weapon guardWeapon;
-		Animation guardDisplayAll;
 		Animation guardIdle;
 		Animation guardDamage;
 		Animation guardDeath;
@@ -150,8 +163,28 @@ void InitEntities() {
 	//size
 	player.SetSize(70, 70);
 
+	//collision
+	player.ConfigureCollision(true, true, { 2, 17 }, { 36, 20 });
+	lLivingThings.AddEntity(player);
+	
+	//weapon
+
+		//size
+		playerWeapon.SetSize(5,5);
+
+		//collision
+		playerWeapon.ConfigureCollision(false, true);
+		lWeapons.AddEntity(playerWeapon);
+
+		//setwepon
+		player.SetWeapon(&playerWeapon, 33);
+	//end weapon
+
 	//Init Sprite Sheet
 	player.InitSpriteSheet(0, 14, 6);
+
+	//damage sprite clip
+	player.SetSpriteClip(0,31,30,30,9);
 
 	//walk sprite clips
 	player.SetSpriteClip(90, 1, 30, 30, 3);			//up...
@@ -175,29 +208,57 @@ void InitEntities() {
 	player.SetAnchorOffset({4, 0}, 7);				//right attack...
 	player.SetAnchorOffset({ -23, 8 }, 8);		//down attack...
 	
-	//collision
-	player.ConfigureCollision(true, true, { 2, 17 }, { 36, 20 });
-	lLivingThings.AddEntity(player);
-	
-	//setWeapon
-	player.SetWeapon(&playerWeapon, 33);
+	////animations
+	player.SetAnimDamage(&playerDamage);
+	playerDamage.loops = false;
+	playerDamage.AddSpriteClip(9);
 
+	player.SetAnimDeath(&playerDeath);
+	playerDeath.loops = false;
+	playerDeath.AddSpriteClip(9);//placeholder frame
+
+	player.SetAnimAttack(&playerAttackUp, 0);
+	playerAttackUp.loops = false;
+	playerAttackUp.AddSpriteClip(5);
+	player.SetAnimAttack(&playerAttackDown, 1);
+	playerAttackDown.loops = false;
+	playerAttackDown.AddSpriteClip(8);
+	player.SetAnimAttack(&playerAttackLeft, 2);
+	playerAttackLeft.loops = false;
+	playerAttackLeft.AddSpriteClip(6);
+	player.SetAnimAttack(&playerAttackRight, 3);
+	playerAttackRight.loops = false;
+	playerAttackRight.AddSpriteClip(7);
+
+	player.SetAnimIdle(&playerIdleUp, 0);
+	playerIdleUp.AddSpriteClip(3);
+	player.SetAnimIdle(&playerIdleDown, 1);
+	playerIdleDown.AddSpriteClip(1);
+	player.SetAnimIdle(&playerIdleLeft, 2);
+	playerIdleLeft.AddSpriteClip(2);
+	player.SetAnimIdle(&playerIdleRight, 3);
+	playerIdleRight.AddSpriteClip(4);
+
+	player.SetAnimMove(&playerMoveUp, 0);
+	playerMoveUp.SetAnimSpeed(10);
+	playerMoveUp.AddSpriteClip(3);
+	playerMoveUp.AddSpriteClip(17);
+	player.SetAnimMove(&playerMoveDown, 1);
+	playerMoveDown.SetAnimSpeed(10);
+	playerMoveDown.AddSpriteClip(1);
+	playerMoveDown.AddSpriteClip(15);
+	player.SetAnimMove(&playerMoveLeft, 2);
+	playerMoveLeft.SetAnimSpeed(10);
+	playerMoveLeft.AddSpriteClip(2);
+	playerMoveLeft.AddSpriteClip(16);
+	player.SetAnimMove(&playerMoveRight, 3);
+	playerMoveRight.SetAnimSpeed(10);
+	playerMoveRight.AddSpriteClip(4);
+	playerMoveRight.AddSpriteClip(18);
 
 
 //END PLAYER
 
-//PLAYERWEAPON
-
-
-
-	//size
-	playerWeapon.SetSize(5,5);
-
-	//collision
-	playerWeapon.ConfigureCollision(false, true);
-	lWeapons.AddEntity(playerWeapon);
-
-//END PLAYERWEAPON
 
 //TREE
 
@@ -283,15 +344,13 @@ void InitEntities() {
 
 	target.SetAnimIdle(&targetIdle);
 	targetIdle.active = true;
-	targetIdle.SetAnimSpeed(5);
-	targetIdle.AddSpriteClip(0);
+	targetIdle.SetAnimSpeed(2.5);
 	targetIdle.AddSpriteClip(0);
 	
 	
 	target.SetAnimDamage(&targetDamage);
 	targetDamage.loops = false;
-	targetDamage.SetAnimSpeed(15);
-	targetDamage.AddSpriteClip(1);
+	targetDamage.SetAnimSpeed(7.5);
 	targetDamage.AddSpriteClip(1);
 
 

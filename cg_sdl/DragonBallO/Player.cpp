@@ -87,6 +87,7 @@ void Player::Update() {
 	Move();
 	PrintPos();
 	Attack();
+	Animate();
 	Sprite::Update();
 }
 
@@ -97,8 +98,6 @@ void Player::SetWeapon(Weapon *weapon, int range, int damage)
 	attackDamage = damage;
 	playerWeapon->SetDamage(damage);
 }
-
-
 
 void Player::PrintPos()
 {
@@ -149,9 +148,26 @@ void Player::SetAnimDamage(Animation * anim)
 	mAnimDamage = anim;
 }
 
-void Player::SetAnimIdle(Animation * anim)
+void Player::SetAnimIdle(Animation * anim, int dir)
 {
-	mAnimIdle = anim;
+	switch (dir)
+	{
+	default:
+		mAnimIdleUp = anim;
+		break;
+	case 1:
+		mAnimIdleDown = anim;
+
+		break;
+	case 2:
+		mAnimIdleLeft = anim;
+
+		break;
+	case 3:
+		mAnimIdleRight = anim;
+
+		break;
+	}
 }
 
 void Player::SetAnimDeath(Animation * anim)
@@ -203,7 +219,6 @@ void Player::SetAnimAttack(Animation * anim, int dir)
 	}
 }
 
-
 void Player::Move() {
 	//If we are attacking we want to stop movement...
 	if (attackTimer > 0.f) {
@@ -221,44 +236,23 @@ void Player::Move() {
 
 	//Update animations...
 	if (gHorizKeysHeld > 0) {
-		moveRightTimer += animMoveSpeed * gDeltaTime;
-
-		int index = (int)moveRightTimer % ANIM_RIGHT_COUNT;
-		mSpriteClipIndex = animRightIndices[index];
-
-		
-		lastMoveIndex = animRightIndices[0];
+		moveTempState = sMove;
 		Entity::mFacingDirection = 3;
 	}
 	else if (gHorizKeysHeld < 0) {
-		moveLeftTimer += animMoveSpeed * gDeltaTime;
-
-		int index = (int)moveLeftTimer % ANIM_LEFT_COUNT;
-		mSpriteClipIndex = animLeftIndices[index];
-
-		lastMoveIndex = animLeftIndices[0];
+		moveTempState = sMove;
 		Entity::mFacingDirection = 2;
 	}
 	else if (gVertKeysHeld > 0) {
-		moveDownTimer += animMoveSpeed * gDeltaTime;
-
-		int index = (int)moveDownTimer % ANIM_DOWN_COUNT;
-		mSpriteClipIndex = animDownIndices[index];
-
-		lastMoveIndex = animDownIndices[0];
+		moveTempState = sMove;
 		Entity::mFacingDirection = 1;
 	}
 	else if (gVertKeysHeld < 0) {
-		moveUpTimer += animMoveSpeed * gDeltaTime;
-
-		int index = (int)moveUpTimer % ANIM_UP_COUNT;
-		mSpriteClipIndex = animUpIndices[index];
-
-		lastMoveIndex = animUpIndices[0];
+		moveTempState = sMove;
 		Entity::mFacingDirection = 0;
 	}
 	else {
-		mSpriteClipIndex = lastMoveIndex;
+		moveTempState = sIdle;
 	}
 }
 
@@ -267,16 +261,11 @@ void Player::Attack() {
 	playerWeapon->SetDamage(attackDamage);
 	//Update animation...
 	if (attackTimer > 0.f) {
-
+		attackTempState = sAttack;
 		attackTimer -= gDeltaTime;	//Updates timer...
-
-		//TODO: replace all player animation with Animation class
-		float time = 1.f - (attackTimer/attackTime);
-		int index = (int)(time * ANIM_ATTACK_COUNT) % ANIM_ATTACK_COUNT;
-		mSpriteClipIndex = animAttackLeftIndices[mFacingDirection][index];
-
 	}	//Start animation...
 	else if (gFirstKeyDown) {
+		attackTempState = sAttack;
 		sdlInit.PlaySFX(sdlInit.sfxSlash01);
 		attackTimer = attackTime;   
 		SetCorners();
@@ -285,6 +274,107 @@ void Player::Attack() {
 		playerWeapon->attacking = true;
 	}
 	else {
+		attackTempState = sIdle;
 		playerWeapon->attacking = false;
 	}
+}
+
+void Player::Animate()
+{
+	if (deathTempState != sIdle) {
+		animState = deathTempState;
+	}
+	else if (damageTempState != sIdle) {
+		animState = damageTempState;
+	}
+	else if (attackTempState != sIdle) {
+		animState = attackTempState;
+	}
+	else {
+		animState = moveTempState;
+	}
+
+	bool finished = false;
+
+	switch (animState)
+	{
+	default:
+	case Player::sIdle:
+		switch (mFacingDirection)
+		{
+		case 0:
+			mAnimIdleUp->active = true;
+			mAnimIdleUp->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 1:
+			mAnimIdleDown->active = true;
+			mAnimIdleDown->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 2:
+			mAnimIdleLeft->active = true;
+			mAnimIdleLeft->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 3:
+			mAnimIdleRight->active = true;
+			mAnimIdleRight->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		}
+		break;
+	case Player::sDeath:
+		mAnimDeath->active = true;
+		mAnimDeath->UpdateSpriteClipIndex(mSpriteClipIndex);
+		break;
+	case Player::sDamage:
+		mAnimDamage->active = true;
+		finished = mAnimDamage->UpdateSpriteClipIndex(mSpriteClipIndex);
+		if (finished) {
+			damageTempState = sIdle;
+		}
+		break;
+	case Player::sMove:
+		switch (mFacingDirection)
+		{
+		case 0:
+			mAnimMoveUp->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 1:
+			mAnimMoveDown->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 2:
+			mAnimMoveLeft->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 3:
+			mAnimMoveRight->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		}
+		break;
+	case Player::sAttack:
+		switch (mFacingDirection)
+		{
+		case 0:
+			mAnimAttackUp->active = true;
+			finished = mAnimAttackUp->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 1:
+			mAnimAttackDown->active = true;
+			finished = mAnimAttackDown->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 2:
+			mAnimAttackLeft->active = true;
+			finished = mAnimAttackLeft->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 3:
+			mAnimAttackRight->active = true;
+			finished = mAnimAttackRight->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		}
+		if (finished) {
+			attackTempState = sIdle;
+		}
+		break;
+
+	case Player::sDisplayAll:
+		break;
+	}
+
 }

@@ -17,7 +17,7 @@ public:
 
 	void SetSpriteClip(int x, int y, unsigned int w, unsigned int h, unsigned int index) override;//used for automatic display animations
 	void SetAnimDamage(Animation *anim);
-	void SetAnimIdle(Animation *anim);
+	void SetAnimIdle(Animation *anim, int dir = 0);
 	void SetAnimDeath(Animation *anim);
 	void SetAnimMove(Animation *anim, int dir = 0);
 	void SetAnimAttack(Animation *anim, int dir = 0);
@@ -30,16 +30,27 @@ public:
 	int xDirMultiplier;
 	int yDirMultiplier;
 	MyMath::Float2 weaponPos;
+	bool isAlive = true;
 
+	enum AnimState { sIdle, sDeath, sDamage, sMove, sAttack, sDisplayAll };
+	AnimState animState = sIdle; //determines which animation is displayed
+	enum MoveState { sNotMoving, sMoving };
+	MoveState defaultMoveState = sNotMoving;
+	MoveState moveState; // determines how the living thing moves (will be ignored if attacking)
+	enum AttackState { sNotAttacking, sAttack1 };
+	AttackState attackState = sNotAttacking; // determines weather the living thing is attacking (higher priority than moveState)
 
 private:
 	void Move();
 	void Attack();
-
+	void Animate();
 
 	//TODO: use these instead of doing anim math every time...
 	DisplayAnimation mAnimDisplayAll;
-	Animation *mAnimIdle;
+	Animation *mAnimIdleUp;
+	Animation *mAnimIdleDown;
+	Animation *mAnimIdleLeft;
+	Animation *mAnimIdleRight;
 	Animation *mAnimDamage;
 	Animation *mAnimDeath;
 	Animation *mAnimMoveUp;
@@ -50,4 +61,9 @@ private:
 	Animation *mAnimAttackDown;
 	Animation *mAnimAttackLeft;
 	Animation *mAnimAttackRight;
+
+	AnimState moveTempState;
+	AnimState attackTempState;
+	AnimState damageTempState;
+	AnimState deathTempState;
 };

@@ -208,7 +208,7 @@ void LivingThing::Animate()
 	else if (animState == AnimState::sDisplayAll) {
 		//display all overrides all but death
 	}
-	else if (mAnimDamage->active == true) {
+	else if (damageTempState != sIdle) {
 		animState = damageTempState;
 	}
 	else if (attackTempState != AnimState::sIdle) {
@@ -254,7 +254,7 @@ void LivingThing::Animate()
 	case sDamage:
 		finished = mAnimDamage->UpdateSpriteClipIndex(mSpriteClipIndex);
 		if (finished) {
-			animState = sIdle;
+			damageTempState = sIdle;
 			mAnimIdle->active = true;
 		}
 		break;

@@ -8,7 +8,7 @@ DisplayAnimation::DisplayAnimation()
 {
 
 	active = true;
-	SetAnimSpeed(1.3);
+	SetAnimSpeed(1.3f);
 }
 
 
