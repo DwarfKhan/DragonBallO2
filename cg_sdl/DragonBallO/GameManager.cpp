@@ -113,6 +113,7 @@ namespace {
 		Animation targetDamage;
 		Animation targetDeath;
 	LivingThing guard;
+		Weapon guardWeapon;
 		Animation guardDisplayAll;
 		Animation guardIdle;
 		Animation guardDamage;
@@ -340,6 +341,17 @@ void InitEntities() {
 	guard.ConfigureCollision(false, true, { 2,3 }, {47,35});
 	lLivingThings.AddEntity(guard);
 
+	//weapon
+	guard.SetWeapon(&guardWeapon);
+		//size
+		guardWeapon.SetSize(5, 5);
+
+		//collision
+		guardWeapon.ConfigureCollision(false, true);
+		lWeapons.AddEntity(guardWeapon);
+	//endweapon
+
+
 	////proxTrigger
 	//guardProx.SetFollowingEntity(guard);
 	//guardProx.SetSize(80,80);
@@ -349,7 +361,8 @@ void InitEntities() {
 	//navigation
 
 	guard.SetMoveSpeed(70.0f);
-	guard.moveState = LivingThing::MoveState::sRandom;
+	guard.moveState = LivingThing::MoveState::sDirectFollow;
+	guard.attackState = LivingThing::AttackState::sAttack1;
 	guard.SetFollowTarget(&player);
 
 	//sound
@@ -395,6 +408,9 @@ void InitEntities() {
 	guard.SetSpriteClip(159, 0  , 31, 31, 26);
 	guard.SetSpriteClip(159, 31 , 31, 31,  27);
 
+	guard.SetSpriteClip(127, 0, 31, 31, 28);
+	guard.SetSpriteClip(127, 31, 31, 31, 29);
+
 
 	//Anchor offsets
 	guard.SetAnchorOffset({ -3,2 }, 2);
@@ -418,6 +434,8 @@ void InitEntities() {
 	guard.SetAnchorOffset({-32,0}, 23);
 	guard.SetAnchorOffset({ -3,0 }, 25);
 
+	guard.SetAnchorOffset({ -5,-3 }, 28);
+	guard.SetAnchorOffset({ -5,-3 }, 29);
 
 	//Animation
 	//guard.animState = LivingThing::AnimState::sDisplayAll;
@@ -473,10 +491,6 @@ void InitEntities() {
 	guardMoveRight.AddSpriteClip(12);
 	guardMoveRight.AddSpriteClip(13);
 
-	//guard.SetAnimDisplayAll(&guardDisplayAll);
-
-
-
 	guard.SetAnimAttackUp(&guardAttackUp);
 	guardAttackUp.loops = false;
 	guardAttackUp.SetAnimSpeed(20);
@@ -487,11 +501,11 @@ void InitEntities() {
 
 	guard.SetAnimAttackDown(&guardAttackDown);
 	guardAttackDown.loops = false;
-	guardAttackDown.SetAnimSpeed(20);
-	guardAttackDown.AddSpriteClip(18); // temp frames
-	guardAttackDown.AddSpriteClip(22);
-	guardAttackDown.AddSpriteClip(18);
-	guardAttackDown.AddSpriteClip(22);
+	guardAttackDown.SetAnimSpeed(28);
+	guardAttackDown.AddSpriteClip(29);
+	guardAttackDown.AddSpriteClip(28);
+	guardAttackDown.AddSpriteClip(29);
+
 
 
 	guard.SetAnimAttackLeft(&guardAttackLeft);

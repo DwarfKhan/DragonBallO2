@@ -25,6 +25,9 @@ public:
 	bool TakeDamage(int damage); // Not sure why override doesnt work here...
 	void SetFollowTarget(Entity *target);
 
+	MyMath::Float2 FindWeaponPos();
+
+	void SetWeapon(Weapon *wep);
 
 	void SetAnimDamage(Animation *anim);
 	void SetAnimIdle(Animation *anim);
@@ -60,6 +63,7 @@ public:
 	float attackDist = 65.0f; //how close LivingThing will get to mFollowTarget before stopping
 	float awareDist = 250.0f; //how close mFollowTarget must be in order to follow
 
+	bool isHostile = true;
 
 private:
 	void WalkSound();
@@ -76,6 +80,9 @@ protected:
 	float mWalkSoundTime = 54.5f;
 
 	float mAttackVelocity;
+	float attackTimer;
+	float attackTime = 250.0f;
+
 
 	
 	AnimState moveTempState;
@@ -107,10 +114,12 @@ protected:
 	Mix_Chunk *mWalkSound; //TODO:  make use of these
 	Mix_Chunk *mDamageSound;
 	Mix_Chunk *mAlertSound;
-	Mix_Chunk *mAttackSound;//
+	Mix_Chunk *mAttackSound;
 
 	Entity * mFollowTarget;
 	MyMath::Float2 mFollowVector;
+
+	Weapon *mWeapon;
 
 };
 

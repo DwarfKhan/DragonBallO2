@@ -99,20 +99,6 @@ void Player::SetWeapon(Weapon *weapon, int range, int damage)
 }
 
 
-void Player::SetCorners()
-{
-	bottomRightCornerPos.x = mPos.x + mSize.x - mBottomRightCollOffset.x;
-	bottomRightCornerPos.y = mPos.y + mSize.y -  mBottomRightCollOffset.y;
-
-	bottomLeftCornerPos.x = mPos.x + mTopLeftCollOffset.x;
-	bottomLeftCornerPos.y = mPos.y + mSize.y - mBottomRightCollOffset.y;
-
-	topRightCornerPos.x = mPos.x + mSize.x - mBottomRightCollOffset.x;
-	topRightCornerPos.y = mPos.y + mTopLeftCollOffset.y;
-
-	topLeftCornerPos.x = mPos.x + mTopLeftCollOffset.x;
-	topLeftCornerPos.y = mPos.y + mTopLeftCollOffset.y;
-}
 
 void Player::PrintPos()
 {

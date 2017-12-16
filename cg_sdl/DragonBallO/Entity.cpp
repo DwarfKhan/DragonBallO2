@@ -14,6 +14,23 @@ void Entity::SetPosition(Float2 pos) {
 	mPos = pos;
 }
 
+void Entity::SetCorners()
+{
+	{
+		bottomRightCornerPos.x = mPos.x + mSize.x - mBottomRightCollOffset.x;
+		bottomRightCornerPos.y = mPos.y + mSize.y - mBottomRightCollOffset.y;
+
+		bottomLeftCornerPos.x = mPos.x + mTopLeftCollOffset.x;
+		bottomLeftCornerPos.y = mPos.y + mSize.y - mBottomRightCollOffset.y;
+
+		topRightCornerPos.x = mPos.x + mSize.x - mBottomRightCollOffset.x;
+		topRightCornerPos.y = mPos.y + mTopLeftCollOffset.y;
+
+		topLeftCornerPos.x = mPos.x + mTopLeftCollOffset.x;
+		topLeftCornerPos.y = mPos.y + mTopLeftCollOffset.y;
+	}
+}
+
 Float2 Entity::GetPos()
 {
 	return mPos;

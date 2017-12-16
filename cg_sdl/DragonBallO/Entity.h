@@ -24,6 +24,7 @@ public:
 	virtual void Update();
 
 	void SetPosition(Float2 pos);
+	void SetCorners();
 	Float2 GetPos();
 	Float2 GetCenterPos();
 	void SetSize(int width, int height);
@@ -55,6 +56,11 @@ protected:
 
 	Int2 mTopLeftCollOffset;
 	Int2 mBottomRightCollOffset;
+
+	MyMath::Float2 topRightCornerPos;
+	MyMath::Float2 bottomRightCornerPos;
+	MyMath::Float2 topLeftCornerPos;
+	MyMath::Float2 bottomLeftCornerPos;
 
 	UByte mPushbackSides{ 0 };
 	int mFacingDirection; // 0 is up, 1 is down, 2 is left, 3 is right

@@ -1,7 +1,9 @@
 #include "Weapon.h"
 #include "LivingThing.h"
+#include "Player.h"
 
 LivingThing livingThingTypeHolder;
+Player playerTypeHolder;
 
 Weapon::Weapon()
 {
@@ -29,16 +31,19 @@ void Weapon::OnCollision(Entity * other)
 		return;
 	}
 
-	if (typeid(*other) != typeid(livingThingTypeHolder)) {//weapon can collide with non living things (buttons)
-		attacking = false;
-		Entity::OnCollision(other);
-		return;
-	}
-
+	if (typeid(*other) == typeid(livingThingTypeHolder)) {//weapon can collide with non living things (buttons)
 	printf("Weapon hit LivingThing.\n");
 	LivingThing* lOther = (LivingThing *)other;
 	lOther->TakeDamage(*attackDamage);
 	//insert special weapon effects here
+	}
+
+	if (typeid(*other) == typeid(playerTypeHolder)) {//weapon can collide with non living things (buttons)
+		printf("Weapon hit Player.\n");
+		Player* pOther = (Player *)other;
+		pOther->TakeDamage(*attackDamage);
+		//insert special weapon effects here
+	}
 
 
 	attacking = false;

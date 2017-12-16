@@ -43,6 +43,7 @@ void LivingThing::OnProxCollision(Entity * other) //Gets called by a ProxTrigger
 void LivingThing::Update()
 {
 	Death();
+	Attack();
 	Move();
 	Animate();
 	Sprite::Update();
@@ -211,7 +212,7 @@ void LivingThing::Animate()
 	else if (mAnimDamage->active == true) {
 		animState = damageTempState;
 	}
-	else if (attackTempState != AttackState::sNotAttacking) {
+	else if (attackTempState != AnimState::sIdle) {
 		animState = attackTempState;
 	}
 	else {
@@ -222,6 +223,30 @@ void LivingThing::Animate()
 
 	case sIdle: // if (animState == sIdle)
 		mAnimIdle->UpdateSpriteClipIndex(mSpriteClipIndex);
+		break;
+
+	case sAttack:
+		switch (mFacingDirection) {
+		case 0:
+			mAnimAttackUp->active = true;
+			mAnimAttackUp->UpdateSpriteClipIndex(mSpriteClipIndex);
+			break;
+		case 1:
+			mAnimAttackDown->active = true;
+			mAnimAttackDown->UpdateSpriteClipIndex(mSpriteClipIndex);
+
+			break;
+		case 2:
+			mAnimAttackLeft->active = true;
+			mAnimAttackLeft->UpdateSpriteClipIndex(mSpriteClipIndex);
+
+			break;
+		case 3:
+			mAnimAttackRight->active = true;
+			mAnimAttackRight->UpdateSpriteClipIndex(mSpriteClipIndex);
+
+			break;
+		}
 		break;
 
 	case sDamage:
@@ -284,18 +309,43 @@ void LivingThing::Attack()
 		attackState = AttackState::sNotAttacking;
 		return;
 	}
+	else if (mWeapon == nullptr) {//making sure there is a weapon before attacking
+		attackState = AttackState::sNotAttacking;
+		return;
+	}
 
 	float distance = Mag(mFollowTarget->GetPos() - mPos);
 
 	if (distance > attackDist) { //making sure target is in range
 		attackState = AttackState::sNotAttacking;
 	}
+	if(isHostile && distance <= attackDist) {
+		attackState = AttackState::sAttack1;
+	}
 
 	switch (attackState)
 	{
 	case sNotAttacking:
+		attackTempState = sIdle;
 		break;
 	case sAttack1:
+
+		if (attackTimer > 0.f) {
+			mWeapon->SetDamage(attackDamage);
+			attackTempState = sAttack;
+			mWeapon->attacking = true;
+			SetCorners();
+			mWeapon->SetPosition(FindWeaponPos());
+			attackTimer -= gDeltaTime;	//Updates timer...
+		}
+		else {
+			sdlInit.PlaySFX(mAttackSound);
+			SetCorners();
+			attackTimer = attackTime;
+			mWeapon->SetPosition(FindWeaponPos());
+			mWeapon->attacking = false;
+		}
+
 		break;
 	}
 
@@ -317,6 +367,36 @@ void LivingThing::SetFollowTarget(Entity * target)
 
 	mFollowTarget = target;
 
+}
+
+MyMath::Float2 LivingThing::FindWeaponPos()
+{
+		MyMath::Int2 wepSize = mWeapon->GetSize();
+		MyMath::Float2 position = { 0,0 };
+		if (Entity::GetFacingDirection() == 0) {
+			position.x = ((topLeftCornerPos.x + topRightCornerPos.x) / 2) - (wepSize.x / 2);
+			position.y = topLeftCornerPos.y - (wepSize.y + (attackDist + 1));
+			//													    	  /\
+					//								Not sure why this 1 is needed but it was the only way to get it to look right...
+		}
+		else if (Entity::GetFacingDirection() == 1) {
+			position.x = ((topLeftCornerPos.x + topRightCornerPos.x) / 2) - (wepSize.x / 2);
+			position.y = bottomLeftCornerPos.y + attackDist;
+		}
+		else if (Entity::GetFacingDirection() == 2) {
+			position.y = ((topLeftCornerPos.y + bottomLeftCornerPos.y) / 2) - (wepSize.y / 2);
+			position.x = topLeftCornerPos.x - (wepSize.x + attackDist);
+		}
+		else if (Entity::GetFacingDirection() == 3) {
+			position.y = ((topLeftCornerPos.y + bottomLeftCornerPos.y) / 2) - (wepSize.y / 2);
+			position.x = topRightCornerPos.x + attackDist;
+		}
+		return position;
+}
+
+void LivingThing::SetWeapon(Weapon * wep)
+{
+	mWeapon = wep;
 }
 
 
