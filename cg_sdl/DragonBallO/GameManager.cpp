@@ -395,11 +395,13 @@ void InitEntities() {
 	guard.SetSpriteClip(0  , 127, 31, 31, 16);
 	guard.SetSpriteClip(31 , 127, 31, 31,  17);
 	guard.SetSpriteClip(63 , 127, 31, 31,  18);
-	guard.SetSpriteClip(95 , 127, 31, 31,  19);
 
 	guard.SetSpriteClip(0  , 159, 31, 31, 20);
 	guard.SetSpriteClip(31 , 159, 31, 31,  21);
 	guard.SetSpriteClip(63 , 159, 31, 31,  22);
+
+	//AttackRight
+	guard.SetSpriteClip(95 , 127, 31, 31,  19);
 	guard.SetSpriteClip(95 , 159, 31, 31,  23);
 
 	guard.SetSpriteClip(223, 31 , 31, 31, 24);
@@ -458,6 +460,7 @@ void InitEntities() {
 	guardDeath.SetAnimSpeed(7.5);
 	guardDeath.AddSpriteClip(25);
 
+	//MOVE
 
 	guard.SetAnimMoveUp(&guardMoveUp);
 	guardMoveUp.loops = false;
@@ -491,6 +494,8 @@ void InitEntities() {
 	guardMoveRight.AddSpriteClip(12);
 	guardMoveRight.AddSpriteClip(13);
 
+	//ATTACKS
+
 	guard.SetAnimAttackUp(&guardAttackUp);
 	guardAttackUp.loops = false;
 	guardAttackUp.SetAnimSpeed(20);
@@ -501,12 +506,10 @@ void InitEntities() {
 
 	guard.SetAnimAttackDown(&guardAttackDown);
 	guardAttackDown.loops = false;
-	guardAttackDown.SetAnimSpeed(28);
+	guardAttackDown.SetAnimSpeed(20);
 	guardAttackDown.AddSpriteClip(29);
 	guardAttackDown.AddSpriteClip(28);
 	guardAttackDown.AddSpriteClip(29);
-
-
 
 	guard.SetAnimAttackLeft(&guardAttackLeft);
 	guardAttackLeft.loops = false;

@@ -32,8 +32,6 @@ public:
 	MyMath::Int2 GetSize();
 	void SetMoveSpeed(float moveSpeed);
 
-	void SetFacingDirection(int direction);// 0 is up, 1 is down, 2 is left, 3 is right
-	int GetFacingDirection();
 
 
 	void ConfigureCollision(bool canPushBack, bool canBePushedBack,

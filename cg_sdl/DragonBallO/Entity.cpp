@@ -66,16 +66,6 @@ void Entity::SetMoveSpeed(float moveSpeed) {
 	mMoveSpeed = moveSpeed;
 }
 
-void Entity::SetFacingDirection(int direction)
-{
-	mFacingDirection = direction;
-}
-
-int Entity::GetFacingDirection()
-{
-	return mFacingDirection;
-}
-
 void Entity::ConfigureCollision(bool canPushBack, bool canBePushedBack,
 	Int2 topLeftCollOffset, Int2 bottomRightCollOffset) {
 	mCanPushBack = canPushBack;

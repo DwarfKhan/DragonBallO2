@@ -117,21 +117,21 @@ MyMath::Float2 Player::FindWeaponPos()
 {
 	MyMath::Int2 wepSize = playerWeapon->GetSize();
 	MyMath::Float2 position = { 0,0 };
-	if (Entity::GetFacingDirection() == 0) {
+	if (mFacingDirection == 0) {
 		position.x = ((topLeftCornerPos.x + topRightCornerPos.x) / 2) - (wepSize.x / 2);
 		position.y = topLeftCornerPos.y - (wepSize.y + (attackRange + 1));
 		//													    	  /\
 		//								Not sure why this 1 is needed but it was the only way to get it to look right...
 	}
-	else if (Entity::GetFacingDirection() == 1) {
+	else if (mFacingDirection == 1) {
 		position.x = ((topLeftCornerPos.x + topRightCornerPos.x) / 2) - (wepSize.x/2);
 		position.y = bottomLeftCornerPos.y + attackRange;
 	}
-	else if (Entity::GetFacingDirection() == 2) {
+	else if (mFacingDirection == 2) {
 		position.y = ((topLeftCornerPos.y + bottomLeftCornerPos.y) / 2) - (wepSize.y/2);
 		position.x = topLeftCornerPos.x - (wepSize.x + attackRange);
 	}
-	else if (Entity::GetFacingDirection() == 3) {
+	else if (mFacingDirection == 3) {
 		position.y = ((topLeftCornerPos.y + bottomLeftCornerPos.y) / 2) - (wepSize.y / 2);
 		position.x = topRightCornerPos.x + attackRange;
 	}
