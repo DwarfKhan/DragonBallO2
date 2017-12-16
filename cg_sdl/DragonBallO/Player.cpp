@@ -138,6 +138,71 @@ MyMath::Float2 Player::FindWeaponPos()
 	return position;
 }
 
+void Player::SetSpriteClip(int x, int y, unsigned int w, unsigned int h, unsigned int index)
+{
+	mAnimDisplayAll.AddSpriteClip(index);//automatic display animation filling
+	Sprite::SetSpriteClip(x, y, w, h, index);
+}
+
+void Player::SetAnimDamage(Animation * anim)
+{
+	mAnimDamage = anim;
+}
+
+void Player::SetAnimIdle(Animation * anim)
+{
+	mAnimIdle = anim;
+}
+
+void Player::SetAnimDeath(Animation * anim)
+{
+	mAnimDeath = anim;
+}
+
+void Player::SetAnimMove(Animation * anim, int dir)
+{
+	switch (dir)
+	{
+	default:
+		mAnimMoveUp = anim;
+		break;
+	case 1:
+		mAnimMoveDown = anim;
+
+		break;
+	case 2:
+		mAnimMoveLeft = anim;
+
+		break;
+	case 3:
+		mAnimMoveRight = anim;
+
+		break;
+	}
+}
+
+void Player::SetAnimAttack(Animation * anim, int dir)
+{
+	switch (dir)
+	{
+	default:
+		mAnimAttackUp = anim;
+		break;
+	case 1:
+		mAnimAttackDown = anim;
+
+		break;
+	case 2:
+		mAnimAttackLeft = anim;
+
+		break;
+	case 3:
+		mAnimAttackRight = anim;
+
+		break;
+	}
+}
+
 
 void Player::Move() {
 	//If we are attacking we want to stop movement...
