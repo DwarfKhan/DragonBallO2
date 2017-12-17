@@ -401,7 +401,7 @@ void InitEntities() {
 	lLivingThings.AddEntity(guard);
 
 	//weapon
-	guard.SetWeapon(&guardWeapon);
+	guard.SetWeapon(&guardWeapon, 33);
 		//size
 		guardWeapon.SetSize(5, 5);
 
@@ -557,32 +557,29 @@ void InitEntities() {
 
 	guard.SetAnimAttackUp(&guardAttackUp);
 	guardAttackUp.loops = false;
-	guardAttackUp.SetAnimSpeed(20);
+	guardAttackUp.SetAnimSpeed(10);
 	guardAttackUp.AddSpriteClip(20); 
-	guardAttackUp.AddSpriteClip(21);
 	guardAttackUp.AddSpriteClip(20);
 	guardAttackUp.AddSpriteClip(21);
 
 	guard.SetAnimAttackDown(&guardAttackDown);
 	guardAttackDown.loops = false;
-	guardAttackDown.SetAnimSpeed(20);
-	guardAttackDown.AddSpriteClip(29);
+	guardAttackDown.SetAnimSpeed(10);
+	guardAttackDown.AddSpriteClip(28);
 	guardAttackDown.AddSpriteClip(28);
 	guardAttackDown.AddSpriteClip(29);
 
 	guard.SetAnimAttackLeft(&guardAttackLeft);
 	guardAttackLeft.loops = false;
-	guardAttackLeft.SetAnimSpeed(20);
+	guardAttackLeft.SetAnimSpeed(10);
 	guardAttackLeft.AddSpriteClip(19); 
-	guardAttackLeft.AddSpriteClip(23);
 	guardAttackLeft.AddSpriteClip(19);
 	guardAttackLeft.AddSpriteClip(23);
 
 	guard.SetAnimAttackRight(&guardAttackRight);
 	guardAttackRight.loops = false; 
-	guardAttackRight.SetAnimSpeed(20);
+	guardAttackRight.SetAnimSpeed(10);
 	guardAttackRight.AddSpriteClip(18);
-	guardAttackRight.AddSpriteClip(22);
 	guardAttackRight.AddSpriteClip(18);
 	guardAttackRight.AddSpriteClip(22);
 
@@ -597,6 +594,7 @@ void InitEntities() {
 	lLivingThings.CollideWith(tree);
 	lLivingThings.CollideWith(playerWeapon);
 	lMoveTriggers.CollideWith(player);
+	lWeapons.CollideWith(player);
 
 	//TODO: Don't hard-code this...
 	gWorld.InitWorldGrid({ 0, 70 - 35, 14, 70 - 16});
@@ -618,6 +616,7 @@ void GameManager::Cleanup(){
 	sdlInit.CleanupSprite(boulder);
 	sdlInit.CleanupSprite(target);
 	sdlInit.CleanupSprite(guard);
+
 	sdlInit.Cleanup();
 }
 
@@ -627,6 +626,7 @@ void GameManager::Update() {
 	target.Update();
 	boulder.Update();
 	guard.Update();
+	guardWeapon.Update();
 	//guardProx.Update();
 	player.Update();
 
@@ -656,6 +656,7 @@ void GameManager::Render(){
 		sdlInit.DrawEntityCollider(player);
 		sdlInit.DrawEntityCollider(playerWeapon);
 		sdlInit.DrawEntityCollider(guard);
+		sdlInit.DrawEntityCollider(guardWeapon);
 		//sdlInit.DrawEntityCollider(guardProx);
 	}
 }

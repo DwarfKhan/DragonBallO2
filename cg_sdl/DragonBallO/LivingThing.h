@@ -27,7 +27,7 @@ public:
 
 	MyMath::Float2 FindWeaponPos();
 
-	void SetWeapon(Weapon *wep);
+	void SetWeapon(Weapon *wep, float range, int damage = 1);
 
 	void SetAnimDamage(Animation *anim);
 	void SetAnimIdle(Animation *anim);
@@ -58,9 +58,10 @@ public:
 	enum AttackState {sNotAttacking, sAttack1};
 	AttackState attackState = sNotAttacking; // determines weather the living thing is attacking (higher priority than moveState)
 
-	int attackDamage;
 
+	int attackDamage;
 	float attackDist = 60.0f; //how close LivingThing will get to mFollowTarget before stopping
+	float attackRange = 40.0f;
 	float awareDist = 250.0f; //how close mFollowTarget must be in order to follow
 
 	bool isHostile = true;
@@ -81,7 +82,7 @@ protected:
 
 	float mAttackVelocity;
 	float attackTimer;
-	float attackTime = 250.0f;
+	float attackTime = 1.8f;
 
 
 	

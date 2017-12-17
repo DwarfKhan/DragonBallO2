@@ -82,7 +82,7 @@ void Player::Update() {
 	if (gCamera.IsPanning()) {
 		return;
 	}
-	
+	printf("HP:%d\n", mHealth);
 	
 	Move();
 	PrintPos();

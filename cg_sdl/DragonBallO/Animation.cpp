@@ -49,8 +49,8 @@ bool Animation::UpdateSpriteClipIndex(int &spriteClipIndex) //returns true for a
 	}
 	
 	//math for finding which frame needs to be displayed
-	mTimer += mSpeed * gDeltaTime;
 	int index = (int)mTimer % mFrameCount; 
+	mTimer += mSpeed * gDeltaTime;
 
 	if (loops)
 	{

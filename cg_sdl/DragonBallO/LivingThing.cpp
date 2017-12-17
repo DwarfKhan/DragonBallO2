@@ -229,26 +229,29 @@ void LivingThing::Animate()
 
 		case 0:
 			mAnimAttackUp->active = true;
-			mAnimAttackUp->UpdateSpriteClipIndex(mSpriteClipIndex);
+			finished = mAnimAttackUp->UpdateSpriteClipIndex(mSpriteClipIndex);
 			break;
 
 		case 1:
 			mAnimAttackDown->active = true;
-			mAnimAttackDown->UpdateSpriteClipIndex(mSpriteClipIndex);
+			finished = mAnimAttackDown->UpdateSpriteClipIndex(mSpriteClipIndex);
 			break;
 
 		case 2:
 			mAnimAttackLeft->active = true;
-			mAnimAttackLeft->UpdateSpriteClipIndex(mSpriteClipIndex);
+			finished = mAnimAttackLeft->UpdateSpriteClipIndex(mSpriteClipIndex);
 			break;
 
 		case 3:
 			mAnimAttackRight->active = true;
-			mAnimAttackRight->UpdateSpriteClipIndex(mSpriteClipIndex);
+			finished = mAnimAttackRight->UpdateSpriteClipIndex(mSpriteClipIndex);
 			break;
 
 		}
-		printf("%d\n", mSpriteClipIndex);
+		if(finished) {
+			attackTempState = sIdle;
+		}
+		//printf("%d\n", mSpriteClipIndex);
 		break;
 
 	case sDamage:
@@ -318,6 +321,7 @@ void LivingThing::Attack()
 
 	if (distance > attackDist) { //making sure target is in range
 		attackState = AttackState::sNotAttacking;
+		attackTimer -= gDeltaTime;
 	}
 	if(isHostile && distance <= attackDist) {
 		attackState = AttackState::sAttack1;
@@ -332,23 +336,21 @@ void LivingThing::Attack()
 		attackTempState = sIdle;
 		break;
 	case sAttack1:
-
-		if (attackTimer > 0.f) {
-			mWeapon->SetDamage(attackDamage);
-			attackTempState = sAttack;
-			mWeapon->attacking = true;
-			SetCorners();
-			mWeapon->SetPosition(FindWeaponPos());
-			attackTimer -= gDeltaTime;	//Updates timer...
+		if (attackTimer < 0.0f) {
+				sdlInit.PlaySFX(mAttackSound);
+				mWeapon->SetDamage(attackDamage);
+				SetCorners();
+				mWeapon->SetPosition(FindWeaponPos());
+				printf("WeaponPos:%f, %f\n", FindWeaponPos().x, FindWeaponPos().y);
+				mWeapon->attacking = true;
+				attackTempState = sAttack;
+				attackTimer = attackTime;
 		}
 		else {
-			sdlInit.PlaySFX(mAttackSound);
-			SetCorners();
-			attackTimer = attackTime;
-			mWeapon->SetPosition(FindWeaponPos());
 			mWeapon->attacking = false;
+			attackTimer -= gDeltaTime;	//Updates timer...
+				//printf("AttackTimer: %f\n", attackTimer);
 		}
-
 		break;
 	}
 
@@ -378,28 +380,31 @@ MyMath::Float2 LivingThing::FindWeaponPos()
 		MyMath::Float2 position = { 0,0 };
 		if (mFacingDirection == 0) {
 			position.x = ((topLeftCornerPos.x + topRightCornerPos.x) / 2) - (wepSize.x / 2);
-			position.y = topLeftCornerPos.y - (wepSize.y + (attackDist + 1));
+			position.y = topLeftCornerPos.y - (wepSize.y + (attackRange + 1));
 			//													    	  /\
 					//								Not sure why this 1 is needed but it was the only way to get it to look right...
 		}
 		else if (mFacingDirection == 1) {
 			position.x = ((topLeftCornerPos.x + topRightCornerPos.x) / 2) - (wepSize.x / 2);
-			position.y = bottomLeftCornerPos.y + attackDist;
+			position.y = bottomLeftCornerPos.y + attackRange;
 		}
 		else if (mFacingDirection == 2) {
 			position.y = ((topLeftCornerPos.y + bottomLeftCornerPos.y) / 2) - (wepSize.y / 2);
-			position.x = topLeftCornerPos.x - (wepSize.x + attackDist);
+			position.x = topLeftCornerPos.x - (wepSize.x + attackRange);
 		}
 		else if (mFacingDirection == 3) {
 			position.y = ((topLeftCornerPos.y + bottomLeftCornerPos.y) / 2) - (wepSize.y / 2);
-			position.x = topRightCornerPos.x + attackDist;
+			position.x = topRightCornerPos.x + attackRange;
 		}
 		return position;
 }
 
-void LivingThing::SetWeapon(Weapon * wep)
+void LivingThing::SetWeapon(Weapon * wep, float range, int damage)
 {
 	mWeapon = wep;
+	attackRange = range;
+	attackDamage = damage;
+	mWeapon->SetDamage(attackDamage);
 }
 
 
