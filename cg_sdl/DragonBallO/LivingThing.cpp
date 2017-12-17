@@ -307,6 +307,12 @@ void LivingThing::Animate()
 
 void LivingThing::Attack()
 {
+	if (!mIsAlive) {
+		return;
+	}
+	if (damageTempState != sIdle) {
+		return;
+	}
 	if (mFollowTarget == nullptr) { //making sure there is a target before attacking
 		attackState = AttackState::sNotAttacking;
 		return;

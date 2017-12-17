@@ -3,6 +3,7 @@
 #include "Destructible.h"
 #include "Weapon.h"
 #include "DisplayAnimation.h"
+#include "SDL_mixer.h"
 
 class Player : public Sprite, public Destructible {
 public:
@@ -10,6 +11,8 @@ public:
 	Player() { mCanBePushedBack = false; }
 	virtual ~Player() override {}
 	void Update() override;
+	bool TakeDamage(int damage) override;
+	void Death();
 	void SetWeapon(Weapon *weapon, int range = 1, int damage = 1);
 	void PrintPos();
 	void OnProxCollision(Entity *other);
@@ -61,6 +64,11 @@ private:
 	Animation *mAnimAttackDown;
 	Animation *mAnimAttackLeft;
 	Animation *mAnimAttackRight;
+
+	Mix_Chunk *mDamageSound;
+	Mix_Chunk *mDeathSound;
+	Mix_Chunk *mWalkSound;
+	Mix_Chunk *mAttackSound;
 
 	AnimState moveTempState;
 	AnimState attackTempState;

@@ -151,6 +151,8 @@ void InitEntities() {
 
 //PLAYER
 
+	//player.animState = Player::AnimState::sDisplayAll;
+
 	//path name
 	player.SetTexturePath("textures/link_sheet.png");
 
@@ -184,7 +186,7 @@ void InitEntities() {
 	player.InitSpriteSheet(0, 14, 6);
 
 	//damage sprite clip
-	player.SetSpriteClip(0,31,30,30,9);
+	player.SetSpriteClip(1,31,30,30,9);
 
 	//walk sprite clips
 	player.SetSpriteClip(90, 1, 30, 30, 3);			//up...
@@ -207,9 +209,13 @@ void InitEntities() {
 	player.SetAnchorOffset({-26, -5}, 6);			//left attack...
 	player.SetAnchorOffset({4, 0}, 7);				//right attack...
 	player.SetAnchorOffset({ -23, 8 }, 8);		//down attack...
+
+	player.SetAnchorOffset({ -2, 0 }, 2);			//left...
+
 	
 	////animations
 	player.SetAnimDamage(&playerDamage);
+	playerDamage.SetAnimSpeed(3);
 	playerDamage.loops = false;
 	playerDamage.AddSpriteClip(9);
 

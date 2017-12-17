@@ -82,8 +82,8 @@ void Player::Update() {
 	if (gCamera.IsPanning()) {
 		return;
 	}
-	printf("HP:%d\n", mHealth);
-	
+	//printf("HP:%d\n", mHealth);
+	Death();
 	Move();
 	PrintPos();
 	Attack();
@@ -91,12 +91,27 @@ void Player::Update() {
 	Sprite::Update();
 }
 
-void Player::SetWeapon(Weapon *weapon, int range, int damage)
+bool Player::TakeDamage(int damage)
 {
-	playerWeapon = weapon;
-	attackRange = range;
-	attackDamage = damage;
-	playerWeapon->SetDamage(damage);
+	if (mHealth - damage > 0) {
+		sdlInit.PlaySFX(mDamageSound);
+		damageTempState = sDamage;
+	}
+	printf("PLayer HP: %d\n", mHealth - damage);
+	return Destructible::TakeDamage(damage);
+}
+
+void Player::Death()
+{
+	if (!isAlive) {
+		return;
+	}
+	if (mHealth > 0) {
+		return;
+	}
+	isAlive = false;
+	sdlInit.PlaySFX(mDeathSound);
+	deathTempState = AnimState::sDeath;
 }
 
 void Player::PrintPos()
@@ -137,89 +152,10 @@ MyMath::Float2 Player::FindWeaponPos()
 	return position;
 }
 
-void Player::SetSpriteClip(int x, int y, unsigned int w, unsigned int h, unsigned int index)
-{
-	mAnimDisplayAll.AddSpriteClip(index);//automatic display animation filling
-	Sprite::SetSpriteClip(x, y, w, h, index);
-}
-
-void Player::SetAnimDamage(Animation * anim)
-{
-	mAnimDamage = anim;
-}
-
-void Player::SetAnimIdle(Animation * anim, int dir)
-{
-	switch (dir)
-	{
-	default:
-		mAnimIdleUp = anim;
-		break;
-	case 1:
-		mAnimIdleDown = anim;
-
-		break;
-	case 2:
-		mAnimIdleLeft = anim;
-
-		break;
-	case 3:
-		mAnimIdleRight = anim;
-
-		break;
-	}
-}
-
-void Player::SetAnimDeath(Animation * anim)
-{
-	mAnimDeath = anim;
-}
-
-void Player::SetAnimMove(Animation * anim, int dir)
-{
-	switch (dir)
-	{
-	default:
-		mAnimMoveUp = anim;
-		break;
-	case 1:
-		mAnimMoveDown = anim;
-
-		break;
-	case 2:
-		mAnimMoveLeft = anim;
-
-		break;
-	case 3:
-		mAnimMoveRight = anim;
-
-		break;
-	}
-}
-
-void Player::SetAnimAttack(Animation * anim, int dir)
-{
-	switch (dir)
-	{
-	default:
-		mAnimAttackUp = anim;
-		break;
-	case 1:
-		mAnimAttackDown = anim;
-
-		break;
-	case 2:
-		mAnimAttackLeft = anim;
-
-		break;
-	case 3:
-		mAnimAttackRight = anim;
-
-		break;
-	}
-}
-
 void Player::Move() {
+	if (!isAlive) {
+		return;
+	}
 	//If we are attacking we want to stop movement...
 	if (attackTimer > 0.f) {
 		return;
@@ -257,6 +193,12 @@ void Player::Move() {
 }
 
 void Player::Attack() {
+	if (!isAlive) {
+		return;
+	}
+	if (damageTempState != sIdle) {
+		return;
+	}
 	//Update attack variables
 	playerWeapon->SetDamage(attackDamage);
 	//Update animation...
@@ -283,6 +225,9 @@ void Player::Animate()
 {
 	if (deathTempState != sIdle) {
 		animState = deathTempState;
+	}
+	else if (animState == sDisplayAll) {
+		//no change needed
 	}
 	else if (damageTempState != sIdle) {
 		animState = damageTempState;
@@ -374,7 +319,98 @@ void Player::Animate()
 		break;
 
 	case Player::sDisplayAll:
+		mAnimDisplayAll.UpdateSpriteClipIndex(mSpriteClipIndex);
 		break;
 	}
 
+}
+
+void Player::SetWeapon(Weapon *weapon, int range, int damage)
+{
+	playerWeapon = weapon;
+	attackRange = range;
+	attackDamage = damage;
+	playerWeapon->SetDamage(damage);
+}
+
+void Player::SetSpriteClip(int x, int y, unsigned int w, unsigned int h, unsigned int index)
+{
+	mAnimDisplayAll.AddSpriteClip(index);//automatic display animation filling
+	Sprite::SetSpriteClip(x, y, w, h, index);
+}
+
+void Player::SetAnimDamage(Animation * anim)
+{
+	mAnimDamage = anim;
+}
+
+void Player::SetAnimIdle(Animation * anim, int dir)
+{
+	switch (dir)
+	{
+	default:
+		mAnimIdleUp = anim;
+		break;
+	case 1:
+		mAnimIdleDown = anim;
+
+		break;
+	case 2:
+		mAnimIdleLeft = anim;
+
+		break;
+	case 3:
+		mAnimIdleRight = anim;
+
+		break;
+	}
+}
+
+void Player::SetAnimDeath(Animation * anim)
+{
+	mAnimDeath = anim;
+}
+
+void Player::SetAnimMove(Animation * anim, int dir)
+{
+	switch (dir)
+	{
+	default:
+		mAnimMoveUp = anim;
+		break;
+	case 1:
+		mAnimMoveDown = anim;
+
+		break;
+	case 2:
+		mAnimMoveLeft = anim;
+
+		break;
+	case 3:
+		mAnimMoveRight = anim;
+
+		break;
+	}
+}
+
+void Player::SetAnimAttack(Animation * anim, int dir)
+{
+	switch (dir)
+	{
+	default:
+		mAnimAttackUp = anim;
+		break;
+	case 1:
+		mAnimAttackDown = anim;
+
+		break;
+	case 2:
+		mAnimAttackLeft = anim;
+
+		break;
+	case 3:
+		mAnimAttackRight = anim;
+
+		break;
+	}
 }

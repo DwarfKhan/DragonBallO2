@@ -112,7 +112,7 @@ protected:
 	Animation *mAnimAttackRight;
 
 	Mix_Chunk *mDeathSound;
-	Mix_Chunk *mWalkSound; //TODO:  make use of these
+	Mix_Chunk *mWalkSound; 
 	Mix_Chunk *mDamageSound;
 	Mix_Chunk *mAlertSound;
 	Mix_Chunk *mAttackSound;

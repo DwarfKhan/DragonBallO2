@@ -7,11 +7,11 @@ public:
 
 public:
 	void SetHealth(int health, int maxHealth);
-	bool TakeDamage(int damage);
+	virtual bool TakeDamage(int damage);
 
 protected:
-	int mMaxHealth{100};
-	int mHealth{100};
+	int mMaxHealth{5};
+	int mHealth{5};
 
 	//TODO: add typedef struct for inventory...
 	//TODO: struct for weapons to attach and give damage...
