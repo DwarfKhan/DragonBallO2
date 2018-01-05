@@ -80,6 +80,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Destructible.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="LivingThing.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MoveTrigger.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Destructible.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="LivingThing.h" />
     <ClInclude Include="MoveTrigger.h" />
     <ClInclude Include="MyMath.h" />

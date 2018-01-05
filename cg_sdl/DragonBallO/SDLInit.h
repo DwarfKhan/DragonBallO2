@@ -33,7 +33,9 @@ class SDLInit{
 		Mix_Chunk *sfxWalk01;
 		Mix_Chunk *sfxAlert01;
 		Mix_Chunk *sfxDamage01;
+		Mix_Chunk *sfxDamage02;
 		Mix_Chunk *sfxDeath01;
+		Mix_Chunk *sfxDeath02;
 
 		bool showColliders = false;
 

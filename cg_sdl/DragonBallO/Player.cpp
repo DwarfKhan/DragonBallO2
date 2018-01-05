@@ -192,6 +192,11 @@ void Player::Move() {
 	}
 }
 
+void Player::Dodge()
+{
+
+}
+
 void Player::Attack() {
 	if (!isAlive) {
 		return;
@@ -413,4 +418,14 @@ void Player::SetAnimAttack(Animation * anim, int dir)
 
 		break;
 	}
+}
+
+void Player::SetDamageSound(Mix_Chunk * sound)
+{
+	mDamageSound = sound;
+}
+
+void Player::SetDeathSound(Mix_Chunk * sound)
+{
+	mDeathSound = sound;
 }

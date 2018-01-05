@@ -182,11 +182,15 @@ void InitEntities() {
 		player.SetWeapon(&playerWeapon, 33);
 	//end weapon
 
+	//sound
+		player.SetDamageSound(sdlInit.sfxDamage02);
+		player.SetDeathSound(sdlInit.sfxDeath02);
+
 	//Init Sprite Sheet
 	player.InitSpriteSheet(0, 14, 6);
 
 	//damage sprite clip
-	player.SetSpriteClip(1,31,30,30,9);
+	player.SetSpriteClip(0,31,30,30,9);
 
 	//walk sprite clips
 	player.SetSpriteClip(90, 1, 30, 30, 3);			//up...

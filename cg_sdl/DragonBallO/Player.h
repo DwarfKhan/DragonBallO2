@@ -25,6 +25,10 @@ public:
 	void SetAnimMove(Animation *anim, int dir = 0);
 	void SetAnimAttack(Animation *anim, int dir = 0);
 
+	void SetDamageSound(Mix_Chunk * sound);
+	void SetDeathSound(Mix_Chunk * sound);
+
+
 
 	int lastMoveIndex;
 	int attackRange;
@@ -45,6 +49,7 @@ public:
 
 private:
 	void Move();
+	void Dodge();
 	void Attack();
 	void Animate();
 

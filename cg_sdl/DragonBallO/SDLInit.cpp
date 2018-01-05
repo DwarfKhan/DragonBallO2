@@ -44,6 +44,7 @@ int gHorizKeysHeld = 0;	//keys a and d
 int gVertKeysHeld = 0;	//keys w and s
 
 //Keys pressed...
+bool gSpaceDown = false;		//key space
 bool gFirstKeyDown = false;		//keys 1
 bool gSecondKeyDown = false;	//keys 2
 bool gThirdKeyDown = false;		//keys 3
@@ -61,6 +62,7 @@ namespace {
 
 void SDLInit::HandleKeyboardEvents() {
 	//Reset pressed keys here...
+	gSpaceDown = false;
 	gFirstKeyDown = false;
 	gSecondKeyDown = false;
 	gThirdKeyDown = false;
@@ -86,6 +88,7 @@ void SDLInit::HandleKeyboardEvents() {
 				case SDLK_a: gHorizKeysHeld -= 1; break;	//left...
 				case SDLK_d: gHorizKeysHeld += 1; break;	//right...
 				//Keys pressed...
+				case SDLK_SPACE: gSpaceDown = true; break;
 				case SDLK_e: gFirstKeyDown = true; break;
 				case SDLK_2: gSecondKeyDown = true; break;
 				case SDLK_3: gThirdKeyDown = true; break;
@@ -181,7 +184,11 @@ bool SDLInit::Setup() {
 					sfxWalk01 = Mix_LoadWAV("sounds/walk.wav");
 					sfxAlert01 = Mix_LoadWAV("sounds/alert.wav");
 					sfxDeath01 = Mix_LoadWAV("sounds/death.wav");
+					sfxDeath02 = Mix_LoadWAV("sounds/death2.wav");
+
 					sfxDamage01 = Mix_LoadWAV("sounds/damage.wav");
+					sfxDamage02 = Mix_LoadWAV("sounds/damage2.wav");
+
 					Mix_VolumeChunk(sfxSlash01, MIX_MAX_VOLUME);
 					SDL_SetRenderDrawBlendMode(gRenderer, SDL_BLENDMODE_BLEND);
 				}
