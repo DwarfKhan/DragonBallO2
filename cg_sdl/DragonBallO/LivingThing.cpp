@@ -327,7 +327,7 @@ void LivingThing::Attack()
 
 	if (distance > attackDist) { //making sure target is in range
 		attackState = AttackState::sNotAttacking;
-		attackTimer -= gDeltaTime;
+		attackTimer = attackTime/2.0f;
 	}
 	if(isHostile && distance <= attackDist) {
 		attackState = AttackState::sAttack1;
@@ -349,8 +349,12 @@ void LivingThing::Attack()
 				mWeapon->SetPosition(FindWeaponPos());
 				printf("WeaponPos:%f, %f\n", FindWeaponPos().x, FindWeaponPos().y);
 				mWeapon->attacking = true;
-				attackTempState = sAttack;
-				attackTimer = attackTime;
+			attackTimer = attackTime;
+			attackTempState = sAttack;
+		}
+		else if (attackTimer < warmUpTime) {//attack animation starts before weapon does damage for a warmup frame
+			attackTempState = sAttack;
+			attackTimer -= gDeltaTime;	//Updates timer...
 		}
 		else {
 			mWeapon->attacking = false;

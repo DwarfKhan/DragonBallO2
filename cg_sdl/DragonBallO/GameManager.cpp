@@ -411,7 +411,7 @@ void InitEntities() {
 	lLivingThings.AddEntity(guard);
 
 	//weapon
-	guard.SetWeapon(&guardWeapon, 33);
+	guard.SetWeapon(&guardWeapon, 28);
 		//size
 		guardWeapon.SetSize(5, 5);
 
@@ -469,16 +469,23 @@ void InitEntities() {
 	guard.SetSpriteClip(31 , 159, 31, 31,  21);
 	guard.SetSpriteClip(63 , 159, 31, 31,  22);
 
-	//AttackRight
+
+
+	//Attack clips
+
+	guard.SetSpriteClip(31, 191, 31, 31, 31);//up
 	guard.SetSpriteClip(95 , 127, 31, 31,  19);
 	guard.SetSpriteClip(95 , 159, 31, 31,  23);
 
+	guard.SetSpriteClip(0, 191, 31, 31, 30);//down
 	guard.SetSpriteClip(223, 31 , 31, 31, 24);
 	guard.SetSpriteClip(255, 31 , 31, 31, 25);
 
+	guard.SetSpriteClip(95, 191, 31, 31, 33);//left
 	guard.SetSpriteClip(159, 0  , 31, 31, 26);
 	guard.SetSpriteClip(159, 31 , 31, 31,  27);
 
+	guard.SetSpriteClip(63, 191, 31, 31, 32);//right
 	guard.SetSpriteClip(127, 0, 31, 31, 28);
 	guard.SetSpriteClip(127, 31, 31, 31, 29);
 
@@ -507,6 +514,13 @@ void InitEntities() {
 
 	guard.SetAnchorOffset({ -5,-3 }, 28);
 	guard.SetAnchorOffset({ -5,-3 }, 29);
+
+	guard.SetAnchorOffset({ -2,-10 }, 31);//up warmup attack
+	guard.SetAnchorOffset({ -2,-8 }, 30);//down
+	guard.SetAnchorOffset({ -18,0 }, 33);//left
+	guard.SetAnchorOffset({ -9,0 }, 32);//right
+
+
 
 	//Animation
 	//guard.animState = LivingThing::AnimState::sDisplayAll;
@@ -568,6 +582,10 @@ void InitEntities() {
 	guard.SetAnimAttackUp(&guardAttackUp);
 	guardAttackUp.loops = false;
 	guardAttackUp.SetAnimSpeed(10);
+	guardAttackUp.AddSpriteClip(31);
+	guardAttackUp.AddSpriteClip(31);
+	guardAttackUp.AddSpriteClip(31);
+	guardAttackUp.AddSpriteClip(31);
 	guardAttackUp.AddSpriteClip(20); 
 	guardAttackUp.AddSpriteClip(20);
 	guardAttackUp.AddSpriteClip(21);
@@ -575,6 +593,10 @@ void InitEntities() {
 	guard.SetAnimAttackDown(&guardAttackDown);
 	guardAttackDown.loops = false;
 	guardAttackDown.SetAnimSpeed(10);
+	guardAttackDown.AddSpriteClip(30);
+	guardAttackDown.AddSpriteClip(30);
+	guardAttackDown.AddSpriteClip(30);
+	guardAttackDown.AddSpriteClip(30);
 	guardAttackDown.AddSpriteClip(28);
 	guardAttackDown.AddSpriteClip(28);
 	guardAttackDown.AddSpriteClip(29);
@@ -582,6 +604,10 @@ void InitEntities() {
 	guard.SetAnimAttackLeft(&guardAttackLeft);
 	guardAttackLeft.loops = false;
 	guardAttackLeft.SetAnimSpeed(10);
+	guardAttackLeft.AddSpriteClip(33);
+	guardAttackLeft.AddSpriteClip(33);
+	guardAttackLeft.AddSpriteClip(33);
+	guardAttackLeft.AddSpriteClip(33);
 	guardAttackLeft.AddSpriteClip(19); 
 	guardAttackLeft.AddSpriteClip(19);
 	guardAttackLeft.AddSpriteClip(23);
@@ -589,6 +615,10 @@ void InitEntities() {
 	guard.SetAnimAttackRight(&guardAttackRight);
 	guardAttackRight.loops = false; 
 	guardAttackRight.SetAnimSpeed(10);
+	guardAttackRight.AddSpriteClip(32);
+	guardAttackRight.AddSpriteClip(32);
+	guardAttackRight.AddSpriteClip(32);
+	guardAttackRight.AddSpriteClip(32);
 	guardAttackRight.AddSpriteClip(18);
 	guardAttackRight.AddSpriteClip(18);
 	guardAttackRight.AddSpriteClip(22);

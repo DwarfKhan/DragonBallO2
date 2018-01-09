@@ -81,8 +81,9 @@ protected:
 	float mWalkSoundTime = 54.5f;
 
 	float mAttackVelocity;
-	float attackTimer;
-	float attackTime = 1.8f;
+	float attackTimer = 2.0f;
+	float attackTime = 2.0f;
+	float warmUpTime = .45f;
 
 
 	
