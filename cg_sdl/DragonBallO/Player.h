@@ -4,6 +4,7 @@
 #include "Weapon.h"
 #include "DisplayAnimation.h"
 #include "SDL_mixer.h"
+#include "StatEffect.h"
 
 class Player : public Sprite, public Destructible {
 public:
