@@ -40,6 +40,8 @@ public:
 	MyMath::Float2 weaponPos;
 	bool isAlive = true;
 
+	vector<StatEffect> statEffects;
+
 	enum AnimState { sIdle, sDeath, sDamage, sMove, sAttack, sDisplayAll };
 	AnimState animState = sIdle; //determines which animation is displayed
 	enum MoveState { sNotMoving, sMoving };
