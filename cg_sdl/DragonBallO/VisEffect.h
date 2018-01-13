@@ -1,11 +1,11 @@
 #pragma once
 #include "Sprite.h"
-class Effect :
+class VisEffect :
 	public Sprite
 {
 public:
-	Effect();
-	~Effect();
+	VisEffect();
+	~VisEffect();
 	void Update() override;
 
 	bool temporary = false;

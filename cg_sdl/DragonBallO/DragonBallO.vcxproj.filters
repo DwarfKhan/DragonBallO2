@@ -69,13 +69,13 @@
     <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DisplayAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VisEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,13 +137,13 @@
     <ClInclude Include="PathFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DisplayAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VisEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

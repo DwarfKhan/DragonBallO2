@@ -1,4 +1,4 @@
-#include "Effect.h"
+#include "VisEffect.h"
 #include "SDLInit.h"
 
 
@@ -6,16 +6,16 @@ extern float gDeltaTime;
 extern SDLInit sdlInit; //needed for sound effects
 
 
-Effect::Effect()
+VisEffect::VisEffect()
 {
 }
 
 
-Effect::~Effect()
+VisEffect::~VisEffect()
 {
 }
 
-void Effect::Update()
+void VisEffect::Update()
 {
 	if (mTimer < 0) {
 		sdlInit.CleanupSprite(*this);//UNTESTED

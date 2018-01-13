@@ -23,6 +23,7 @@ extern int gHorizKeysHeld;	//keys a and d
 extern int gVertKeysHeld;	//keys w and s
 
 //Keys pressed...
+extern bool gSpaceDown;     //key Space
 extern bool gFirstKeyDown;	//keys 1
 extern bool gSecondKeyDown;	//keys 2
 extern bool gThirdKeyDown;	//keys 3
@@ -194,6 +195,9 @@ void Player::Move() {
 
 void Player::Dodge()
 {
+	if (!gSpaceDown) {
+		return;
+}
 
 }
 
