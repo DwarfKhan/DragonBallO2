@@ -84,6 +84,7 @@ void Player::Update() {
 		return;
 	}
 	//printf("HP:%d\n", mHealth);
+	StatFunctions::UpdateStats(statEffects);
 	Death();
 	Move();
 	PrintPos();
@@ -94,6 +95,10 @@ void Player::Update() {
 
 bool Player::TakeDamage(int damage)
 {
+
+	if (StatFunctions::StatCheck(statEffects, "invincible")) {
+		return false;
+	}
 	if (mHealth - damage > 0) {
 		sdlInit.PlaySFX(mDamageSound);
 		damageTempState = sDamage;
@@ -120,6 +125,9 @@ void Player::PrintPos()
 	if (!gSecondKeyDown) {
 		return;
 	}
+	StatEffect test("invincible", 1.0f); // for demo
+	statEffects.push_back(test);
+
 		printf("X: %f\n", mPos.x);
 		printf("Y: %f\n", mPos.y);
 }
