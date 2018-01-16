@@ -407,7 +407,7 @@ void InitEntities() {
 	//size
 	guard.SetSize(80, 80);
 	//collision
-	guard.ConfigureCollision(false, true, { 2,3 }, {47,35});
+	guard.ConfigureCollision(true, true, { 2,3 }, {47,35});
 	lLivingThings.AddEntity(guard);
 
 	//weapon

@@ -86,6 +86,7 @@ void Player::Update() {
 	//printf("HP:%d\n", mHealth);
 	StatFunctions::UpdateStats(statEffects);
 	Death();
+	Dodge();
 	Move();
 	PrintPos();
 	Attack();
@@ -125,9 +126,6 @@ void Player::PrintPos()
 	if (!gSecondKeyDown) {
 		return;
 	}
-	StatEffect test("invincible", 1.0f); // for demo
-	statEffects.push_back(test);
-
 		printf("X: %f\n", mPos.x);
 		printf("Y: %f\n", mPos.y);
 }
@@ -172,6 +170,9 @@ void Player::Move() {
 
 	//Setting velocity...
 	float velocity = mMoveSpeed * gDeltaTime;
+	if (StatFunctions::StatCheck(statEffects, "fast")) {
+		velocity *= 3.0f;
+	}
 
 	//Updates position. SQRHYPE is used so diagnal direction is NOT faster...
 	mPos.x += (gVertKeysHeld != 0 ? (gHorizKeysHeld * 
@@ -203,10 +204,19 @@ void Player::Move() {
 
 void Player::Dodge()
 {
+	if (dodgeTimer > 0) {
+		dodgeTimer -= gDeltaTime;
+		return;
+	}
 	if (!gSpaceDown) {
 		return;
 }
+	dodgeTimer = dodgeTime;
+	StatEffect dodgeHP("invincible", 0.3f);
+	statEffects.push_back(dodgeHP);
 
+	StatEffect dodgeSP("fast", 0.3f);
+	statEffects.push_back(dodgeSP);
 }
 
 void Player::Attack() {

@@ -56,6 +56,9 @@ private:
 	void Attack();
 	void Animate();
 
+
+	float dodgeTimer;
+	float dodgeTime = 2;
 	//TODO: use these instead of doing anim math every time...
 	DisplayAnimation mAnimDisplayAll;
 	Animation *mAnimIdleUp;
